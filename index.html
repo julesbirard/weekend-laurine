@@ -1,16 +1,112 @@
 <!DOCTYPE html>
-<!-- Cette première ligne dit au navigateur : "ce fichier est écrit en HTML moderne" -->
 <html lang="fr">
 <head>
-  <!-- Le <head> contient des informations qui ne s'affichent pas directement à l'écran -->
   <meta charset="UTF-8">
-  <!-- charset="UTF-8" permet d'afficher correctement les accents français -->
-  <title>Site du week-end</title>
-  <!-- Le titre qui apparaît dans l'onglet du navigateur -->
+  <title>Le week-end approche...</title>
+  <style>
+    /* On centre tout le contenu au milieu de l'écran, verticalement et horizontalement */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background-color: #f5f0e8;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Le conteneur du compte à rebours : les 4 blocs (jours/heures/min/sec) côte à côte */
+    #countdown {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .bloc-temps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .valeur {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    .label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <!-- Le <body> contient tout ce qui s'affiche réellement à l'écran -->
-  <h1>Ça marche !</h1>
-  <p>Le site du week-end est en cours de construction.</p>
+
+  <h1>Le week-end approche...</h1>
+
+  <!-- Ces 4 blocs seront remplis dynamiquement par le JavaScript ci-dessous -->
+  <div id="countdown">
+    <div class="bloc-temps">
+      <span class="valeur" id="jours">0</span>
+      <span class="label">jours</span>
+    </div>
+    <div class="bloc-temps">
+      <span class="valeur" id="heures">0</span>
+      <span class="label">heures</span>
+    </div>
+    <div class="bloc-temps">
+      <span class="valeur" id="minutes">0</span>
+      <span class="label">min</span>
+    </div>
+    <div class="bloc-temps">
+      <span class="valeur" id="secondes">0</span>
+      <span class="label">sec</span>
+    </div>
+  </div>
+
+  <script>
+    // La date d'ouverture du site, telle que définie dans le cahier des charges (section 3)
+    // Format : année-mois-jourTheure:minute:seconde
+    const dateOuverture = new Date('2026-07-25T00:00:00');
+
+    // Cette fonction s'exécute en boucle toutes les secondes
+    function mettreAJourCompteARebours() {
+      const maintenant = new Date();
+      const difference = dateOuverture - maintenant; // différence en millisecondes
+
+      // Si la différence est négative ou nulle, la date d'ouverture est atteinte ou dépassée :
+      // on redirige immédiatement vers la page d'accueil, comme demandé dans le brief.
+      if (difference <= 0) {
+        window.location.href = 'accueil.html';
+        return; // on arrête ici, pas besoin de continuer le calcul
+      }
+
+      // Conversion de la différence (en millisecondes) en jours / heures / minutes / secondes
+      const jours = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const heures = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const secondes = Math.floor((difference / 1000) % 60);
+
+      // On met à jour le texte affiché à l'écran
+      document.getElementById('jours').textContent = jours;
+      document.getElementById('heures').textContent = heures;
+      document.getElementById('minutes').textContent = minutes;
+      document.getElementById('secondes').textContent = secondes;
+    }
+
+    // On lance le calcul une première fois immédiatement (sinon il faudrait attendre 1 seconde
+    // avant que quoi que ce soit ne s'affiche)
+    mettreAJourCompteARebours();
+
+    // Puis on répète ce calcul toutes les 1000 millisecondes (= toutes les secondes)
+    setInterval(mettreAJourCompteARebours, 1000);
+  </script>
+
 </body>
 </html>
