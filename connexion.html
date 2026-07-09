@@ -128,10 +128,11 @@
         document.getElementById('etape-code').style.display = 'none';
         document.getElementById('etape-profil').style.display = 'block';
       } else {
-        // Profil déjà complet : pour l'instant on affiche juste un message.
-        // Ce sera remplacé par un vrai accès au dashboard à une prochaine phase.
-        messageEl.textContent = 'Bienvenue, tu es déjà connecté(e) !';
-        messageEl.className = 'succes';
+        // Profil déjà complet : on stocke le code et le surnom pour la page suivante,
+        // puis on redirige vers la page personnelle
+        sessionStorage.setItem('code', code);
+        sessionStorage.setItem('surnom', invite.surnom);
+        window.location.href = 'dashboard-test.html';
       }
     }
 
@@ -176,8 +177,10 @@
       messageEl.textContent = 'Profil enregistré, merci !';
       messageEl.className = 'succes';
 
-      // À une prochaine étape, on enchaînera ici vers l'upload de la photo (Brique 4b),
-      // puis vers le dashboard.
+      // On stocke le code et le surnom, puis on redirige vers la page personnelle
+      sessionStorage.setItem('code', codeInviteActuel);
+      sessionStorage.setItem('surnom', surnom);
+      setTimeout(() => { window.location.href = 'dashboard-test.html'; }, 800);
     }
   </script>
 
