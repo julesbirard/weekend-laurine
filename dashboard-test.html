@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ta page</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background-color: #f5f0e8;
+      text-align: center;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    h1 { font-size: 2rem; margin-bottom: 2rem; }
+
+    #sondage {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    #sondage h2 { font-size: 1.2rem; margin-top: 0; }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 0.5rem 0;
+      font-size: 1.05rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover { background-color: #555; }
+
+    #message-sondage {
+      margin-top: 1rem;
+      color: #1a7a1a;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="salutation">Bonjour !</h1>
+
+  <!--
+    Sondage TEST uniquement, pour valider le principe.
+    Les vrais sondages (avec les vraies options A/B/C) seront construits
+    proprement à la Phase 6, avec sauvegarde réelle dans Supabase.
+  -->
+  <div id="sondage">
+    <h2>Sondage test : ton activité préférée ?</h2>
+    <label><input type="radio" name="reponse" value="Piscine"> Piscine</label>
+    <label><input type="radio" name="reponse" value="Bowling"> Bowling</label>
+    <label><input type="radio" name="reponse" value="Pétanque"> Pétanque</label>
+    <button onclick="repondreSondage()">Valider ma réponse</button>
+    <p id="message-sondage"></p>
+  </div>
+
+  <!-- On importe la bibliothèque Supabase, comme sur connexion.html -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://fsrjhdxbdpdrdlcovdxg.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_7pg8_ejZTCj1D6dcnuLsSw_Kq4dpuxX';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // On récupère le code et le surnom stockés par connexion.html
+    const code = sessionStorage.getItem('code');
+    const surnom = sessionStorage.getItem('surnom');
+
+    if (surnom) {
+      document.getElementById('salutation').textContent = 'Bonjour ' + surnom + ' !';
+    } else {
+      document.getElementById('salutation').textContent = 'Bonjour ! (connecte-toi via connexion.html)';
+    }
+
+    // Au chargement de la page, on va chercher si l'invité a déjà répondu,
+    // pour pré-cocher son choix et lui permettre de le corriger.
+    async function chargerReponseExistante() {
+      if (!code) return; // pas de code = pas connecté, on ne fait rien
+
+      const { data, error } = await supabaseClient.rpc('lire_reponse_sondage', { code_saisi: code });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      if (data.length > 0) {
+        const reponseActuelle = data[0].reponse;
+        // On pré-coche le bon bouton radio
+        const input = document.querySelector(`input[name="reponse"][value="${reponseActuelle}"]`);
+        if (input) input.checked = true;
+
+        document.getElementById('message-sondage').textContent =
+          'Ta réponse actuelle : ' + reponseActuelle + ' (tu peux la corriger ci-dessus)';
+      }
+    }
+
+    chargerReponseExistante();
+
+    async function repondreSondage() {
+      const choix = document.querySelector('input[name="reponse"]:checked');
+      const messageEl = document.getElementById('message-sondage');
+
+      if (!choix) {
+        messageEl.textContent = 'Choisis une option avant de valider.';
+        return;
+      }
+
+      if (!code) {
+        messageEl.textContent = 'Erreur : reconnecte-toi via connexion.html.';
+        return;
+      }
+
+      messageEl.textContent = 'Enregistrement...';
+
+      // "enregistrer_reponse_sondage" fait un upsert : si une réponse existe déjà
+      // pour ce code, elle est remplacée par la nouvelle (= correction).
+      const { data, error } = await supabaseClient.rpc('enregistrer_reponse_sondage', {
+        code_saisi: code,
+        reponse_saisie: choix.value
+      });
+
+      if (error) {
+        console.error(error);
+        messageEl.textContent = "Une erreur est survenue, réessaie.";
+        return;
+      }
+
+      messageEl.textContent = 'Réponse enregistrée : ' + choix.value;
+    }
+  </script>
+
+</body>
+</html>
