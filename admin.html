@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Espace organisatrice - Tableau de bord</title>
+  <style>
+    body {
+      margin: 0; padding: 2rem; font-family: Arial, sans-serif;
+      background-color: #f5f0e8;
+    }
+    h1 { margin-bottom: 0.5rem; }
+    h2 { margin-top: 2.5rem; }
+    table {
+      border-collapse: collapse; width: 100%; background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    th, td {
+      border: 1px solid #ddd; padding: 0.6rem 0.8rem; text-align: left;
+    }
+    th { background-color: #333; color: white; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    #erreur { color: #b00020; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>Tableau de bord organisatrice</h1>
+  <p id="erreur"></p>
+
+  <h2>Invités</h2>
+  <table id="table-invites">
+    <thead>
+      <tr>
+        <th>Code</th><th>Nom</th><th>Prénom</th><th>Surnom</th><th>Email</th><th>Profil complet</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>Réponses au sondage test</h2>
+  <table id="table-reponses">
+    <thead>
+      <tr><th>Code invité</th><th>Réponse</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://fsrjhdxbdpdrdlcovdxg.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_7pg8_ejZTCj1D6dcnuLsSw_Kq4dpuxX';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const codeAdmin = sessionStorage.getItem('codeAdmin');
+
+    async function chargerDonnees() {
+      if (!codeAdmin) {
+        document.getElementById('erreur').textContent =
+          'Tu dois te connecter via connexion-admin.html avant d\'accéder à cette page.';
+        return;
+      }
+
+      // On charge les invités et les réponses en parallèle (plus rapide que l'un après l'autre)
+      const [resultInvites, resultReponses] = await Promise.all([
+        supabaseClient.rpc('lire_invites', { code_admin: codeAdmin }),
+        supabaseClient.rpc('lire_reponses_sondage', { code_admin: codeAdmin })
+      ]);
+
+      if (resultInvites.error || resultReponses.error) {
+        console.error(resultInvites.error || resultReponses.error);
+        document.getElementById('erreur').textContent = 'Une erreur est survenue lors du chargement.';
+        return;
+      }
+
+      if (resultInvites.data.length === 0) {
+        // Soit le code admin est invalide, soit il n'y a réellement aucun invité.
+        // On ne peut pas distinguer les deux cas avec certitude, donc message prudent.
+        document.getElementById('erreur').textContent =
+          'Aucune donnée trouvée. Vérifie que ton code admin est correct.';
+      }
+
+      // Remplissage du tableau des invités
+      const corpsInvites = document.querySelector('#table-invites tbody');
+      resultInvites.data.forEach(invite => {
+        const ligne = document.createElement('tr');
+        ligne.innerHTML = `
+          <td>${invite.code_acces}</td>
+          <td>${invite.nom ?? ''}</td>
+          <td>${invite.prenom ?? ''}</td>
+          <td>${invite.surnom ?? ''}</td>
+          <td>${invite.email ?? ''}</td>
+          <td>${invite.profil_complete ? 'Oui' : 'Non'}</td>
+        `;
+        corpsInvites.appendChild(ligne);
+      });
+
+      // Remplissage du tableau des réponses au sondage
+      const corpsReponses = document.querySelector('#table-reponses tbody');
+      resultReponses.data.forEach(reponse => {
+        const ligne = document.createElement('tr');
+        ligne.innerHTML = `<td>${reponse.code_acces}</td><td>${reponse.reponse}</td>`;
+        corpsReponses.appendChild(ligne);
+      });
+    }
+
+    chargerDonnees();
+  </script>
+
+</body>
+</html>

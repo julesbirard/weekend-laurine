@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Espace organisatrice</title>
+  <style>
+    body {
+      margin: 0; height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: Arial, sans-serif; background-color: #f5f0e8; text-align: center;
+    }
+    h1 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+    input {
+      font-size: 1.2rem; padding: 0.6rem 1rem; border: 2px solid #333;
+      border-radius: 6px; text-align: center; margin-bottom: 1rem;
+    }
+    button {
+      font-size: 1.1rem; padding: 0.6rem 1.5rem; border: none; border-radius: 6px;
+      background-color: #333; color: white; cursor: pointer;
+    }
+    button:hover { background-color: #555; }
+    #message { margin-top: 1.5rem; font-size: 1.1rem; }
+    .erreur { color: #b00020; }
+  </style>
+</head>
+<body>
+
+  <h1>Espace organisatrice</h1>
+  <input type="text" id="codeAdmin" placeholder="Ton code">
+  <button onclick="seConnecterAdmin()">Se connecter</button>
+  <p id="message"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://fsrjhdxbdpdrdlcovdxg.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_7pg8_ejZTCj1D6dcnuLsSw_Kq4dpuxX';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function seConnecterAdmin() {
+      const messageEl = document.getElementById('message');
+      const code = document.getElementById('codeAdmin').value.trim();
+
+      if (code === '') {
+        messageEl.textContent = 'Merci de saisir un code.';
+        messageEl.className = 'erreur';
+        return;
+      }
+
+      messageEl.textContent = 'Vérification...';
+      messageEl.className = '';
+
+      const { data, error } = await supabaseClient.rpc('verifier_code_admin', { code_saisi: code });
+
+      if (error) {
+        console.error(error);
+        messageEl.textContent = "Une erreur est survenue, réessaie.";
+        messageEl.className = 'erreur';
+        return;
+      }
+
+      if (data === true) {
+        // On stocke le code admin pour que la page suivante puisse l'utiliser
+        // à chaque fois qu'elle a besoin de lire des données
+        sessionStorage.setItem('codeAdmin', code);
+        window.location.href = 'admin.html';
+      } else {
+        messageEl.textContent = 'Code invalide.';
+        messageEl.className = 'erreur';
+      }
+    }
+  </script>
+
+</body>
+</html>
