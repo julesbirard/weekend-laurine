@@ -50,10 +50,24 @@
 </head>
 <body>
 
-  <h1>Entre ton code d'accès</h1>
-  <input type="text" id="code" placeholder="Ton code">
-  <button onclick="seConnecter()">Se connecter</button>
-  <p id="message"></p>
+  <div id="etape-code">
+    <h1>Entre ton code d'accès</h1>
+    <input type="text" id="code" placeholder="Ton code">
+    <button onclick="seConnecter()">Se connecter</button>
+    <p id="message"></p>
+  </div>
+
+  <!-- Ce formulaire est masqué par défaut (style="display: none").
+       Le JavaScript ci-dessous l'affichera uniquement si profil_complete = false -->
+  <div id="etape-profil" style="display: none;">
+    <h1>Complète ton profil</h1>
+    <input type="text" id="nom" placeholder="Nom"><br>
+    <input type="text" id="prenom" placeholder="Prénom"><br>
+    <input type="text" id="surnom" placeholder="Surnom"><br>
+    <input type="email" id="email" placeholder="Email"><br>
+    <button onclick="validerProfil()">Valider mon profil</button>
+    <p id="message-profil"></p>
+  </div>
 
   <!-- On importe la bibliothèque Supabase, qui fournit les outils prêts à l'emploi
        pour dialoguer avec notre base de données depuis le navigateur -->
@@ -106,12 +120,64 @@
       const invite = data[0];
       console.log('Invité trouvé :', invite);
 
-      messageEl.textContent = `Bienvenue ! (profil complet : ${invite.profil_complete})`;
+      if (invite.profil_complete === false) {
+        // Premier login : on cache l'étape "code" et on affiche le formulaire de profil.
+        // On garde le code en mémoire (dans une variable globale) pour pouvoir
+        // l'envoyer à nouveau quand l'invité validera son profil.
+        codeInviteActuel = code;
+        document.getElementById('etape-code').style.display = 'none';
+        document.getElementById('etape-profil').style.display = 'block';
+      } else {
+        // Profil déjà complet : pour l'instant on affiche juste un message.
+        // Ce sera remplacé par un vrai accès au dashboard à une prochaine phase.
+        messageEl.textContent = 'Bienvenue, tu es déjà connecté(e) !';
+        messageEl.className = 'succes';
+      }
+    }
+
+    // Variable qui garde en mémoire le code de l'invité entre l'étape 1 (connexion)
+    // et l'étape 2 (complétion du profil)
+    let codeInviteActuel = null;
+
+    async function validerProfil() {
+      const messageEl = document.getElementById('message-profil');
+
+      const nom = document.getElementById('nom').value.trim();
+      const prenom = document.getElementById('prenom').value.trim();
+      const surnom = document.getElementById('surnom').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (nom === '' || prenom === '' || email === '') {
+        messageEl.textContent = 'Merci de remplir au moins Nom, Prénom et Email.';
+        messageEl.className = 'erreur';
+        return;
+      }
+
+      messageEl.textContent = 'Enregistrement...';
+      messageEl.className = '';
+
+      // On appelle notre fonction "completer_profil", qui met à jour la ligne
+      // correspondant à codeInviteActuel, et marque le profil comme complet
+      const { data, error } = await supabaseClient.rpc('completer_profil', {
+        code_saisi: codeInviteActuel,
+        nom_saisi: nom,
+        prenom_saisi: prenom,
+        surnom_saisi: surnom,
+        email_saisi: email
+      });
+
+      if (error) {
+        console.error(error);
+        messageEl.textContent = "Une erreur est survenue, réessaie.";
+        messageEl.className = 'erreur';
+        return;
+      }
+
+      messageEl.textContent = 'Profil enregistré, merci !';
       messageEl.className = 'succes';
 
-      // Pour l'instant on s'arrête là. À la prochaine brique, on enchaînera :
-      // - vers le formulaire de complétion de profil si profil_complete = false
-      // - vers le dashboard si profil_complete = true
+      // À une prochaine étape, on enchaînera ici vers l'upload de la photo (Brique 4b),
+      // puis vers le dashboard.
     }
   </script>
 
