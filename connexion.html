@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background-color: #f5f0e8;
+      text-align: center;
+    }
+
+    h1 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+
+    input {
+      font-size: 1.2rem;
+      padding: 0.6rem 1rem;
+      border: 2px solid #333;
+      border-radius: 6px;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover { background-color: #555; }
+
+    #message {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    .erreur { color: #b00020; }
+    .succes { color: #1a7a1a; }
+  </style>
+</head>
+<body>
+
+  <h1>Entre ton code d'accès</h1>
+  <input type="text" id="code" placeholder="Ton code">
+  <button onclick="seConnecter()">Se connecter</button>
+  <p id="message"></p>
+
+  <!-- On importe la bibliothèque Supabase, qui fournit les outils prêts à l'emploi
+       pour dialoguer avec notre base de données depuis le navigateur -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ⚠️ Remplace ces deux valeurs par celles récupérées à l'étape 2
+    // (Settings > Data API dans Supabase)
+    const SUPABASE_URL = 'COLLE_TON_PROJECT_URL_ICI';
+    const SUPABASE_KEY = 'COLLE_TA_CLE_ANON_PUBLIC_ICI';
+
+    // On crée un "client" Supabase : l'objet qui va nous permettre de
+    // communiquer avec notre base de données
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function seConnecter() {
+      const messageEl = document.getElementById('message');
+      const code = document.getElementById('code').value.trim();
+
+      if (code === '') {
+        messageEl.textContent = 'Merci de saisir un code.';
+        messageEl.className = 'erreur';
+        return;
+      }
+
+      messageEl.textContent = 'Vérification...';
+      messageEl.className = '';
+
+      // On appelle notre fonction "verifier_code" créée dans Supabase,
+      // en lui passant le code saisi par l'invité
+      const { data, error } = await supabase.rpc('verifier_code', { code_saisi: code });
+
+      if (error) {
+        // Une erreur technique (connexion, faute dans le nom de la fonction, etc.)
+        console.error(error);
+        messageEl.textContent = "Une erreur est survenue, réessaie.";
+        messageEl.className = 'erreur';
+        return;
+      }
+
+      if (data.length === 0) {
+        // La fonction n'a renvoyé aucune ligne : le code n'existe pas
+        messageEl.textContent = 'Code invalide.';
+        messageEl.className = 'erreur';
+        return;
+      }
+
+      // Le code est valide : on récupère les infos de l'invité (une seule ligne)
+      const invite = data[0];
+      console.log('Invité trouvé :', invite);
+
+      messageEl.textContent = `Bienvenue ! (profil complet : ${invite.profil_complete})`;
+      messageEl.className = 'succes';
+
+      // Pour l'instant on s'arrête là. À la prochaine brique, on enchaînera :
+      // - vers le formulaire de complétion de profil si profil_complete = false
+      // - vers le dashboard si profil_complete = true
+    }
+  </script>
+
+</body>
+</html>
