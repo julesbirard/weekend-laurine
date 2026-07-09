@@ -6,12 +6,85 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-centree">
-  <!--
-    Page provisoire. Le vrai contenu (titre, compte à rebours, texte, dates, photos,
-    bouton "Se connecter") sera construit à la Phase 3, section 4.2 du cahier des charges.
-    Pour l'instant, ce fichier existe juste pour que la redirection depuis index.html
-    fonctionne sans erreur "page introuvable".
-  -->
-  <h1>Page d'accueil — à venir (Phase 3)</h1>
+
+  <!-- 1. Titre -->
+  <h1>Le week-end approche !</h1>
+
+  <!-- 2. Compte à rebours vers le Jour J -->
+  <div id="countdown">
+    <div class="bloc-temps">
+      <span class="valeur" id="jours">0</span>
+      <span class="label">jours</span>
+    </div>
+    <div class="bloc-temps">
+      <span class="valeur" id="heures">0</span>
+      <span class="label">heures</span>
+    </div>
+    <div class="bloc-temps">
+      <span class="valeur" id="minutes">0</span>
+      <span class="label">min</span>
+    </div>
+    <div class="bloc-temps">
+      <span class="valeur" id="secondes">0</span>
+      <span class="label">sec</span>
+    </div>
+  </div>
+
+  <!-- 3. Texte explicatif (provisoire, à remplacer par le vrai texte plus tard) -->
+  <p style="max-width: 500px; margin: 2rem 0;">
+    On se retrouve tous pour un week-end entre amis au Moulin des Ducs, à Épinac !
+    Connecte-toi pour retrouver le programme, indiquer tes préférences et suivre
+    tous les détails pratiques.
+  </p>
+
+  <!-- 4. Rappel des dates -->
+  <table style="max-width: 500px;">
+    <tbody>
+      <tr><td>Ouverture du site</td><td>25 juillet 2026</td></tr>
+      <tr><td>Date limite de réponse</td><td>15 août 2026</td></tr>
+      <tr><td>Début du week-end</td><td>Vendredi 4 septembre 2026, 17h</td></tr>
+      <tr><td>Fin du week-end</td><td>Dimanche 6 septembre 2026, 17h</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 5. Photo(s) de la maison : espace réservé en attendant une vraie photo -->
+  <div style="width: 100%; max-width: 500px; height: 250px; background-color: #ddd;
+              display: flex; align-items: center; justify-content: center;
+              border-radius: 10px; margin: 2rem 0; color: #777;">
+    Photo du Moulin des Ducs à venir
+  </div>
+
+  <!-- 6. Call-to-action -->
+  <button onclick="window.location.href='connexion.html'">Se connecter</button>
+
+  <script>
+    // Compte à rebours vers le début du week-end (section 3 du cahier des charges)
+    const jourJ = new Date('2026-09-04T17:00:00');
+
+    function mettreAJourCompteARebours() {
+      const maintenant = new Date();
+      const difference = jourJ - maintenant;
+
+      if (difference <= 0) {
+        // Le week-end a commencé : on n'affiche plus de compte à rebours négatif
+        document.getElementById('countdown').textContent = "C'est parti !";
+        return;
+      }
+
+      const jours = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const heures = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const secondes = Math.floor((difference / 1000) % 60);
+
+      document.getElementById('jours').textContent = jours;
+      document.getElementById('heures').textContent = heures;
+      document.getElementById('minutes').textContent = minutes;
+      document.getElementById('secondes').textContent = secondes;
+    }
+
+    mettreAJourCompteARebours();
+    setInterval(mettreAJourCompteARebours, 1000);
+  </script>
+
 </body>
 </html>
