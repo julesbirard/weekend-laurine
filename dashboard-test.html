@@ -3,60 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Ta page</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      background-color: #f5f0e8;
-      text-align: center;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
-
-    h1 { font-size: 2rem; margin-bottom: 2rem; }
-
-    #sondage {
-      background: white;
-      border-radius: 10px;
-      padding: 1.5rem 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    #sondage h2 { font-size: 1.2rem; margin-top: 0; }
-
-    label {
-      display: block;
-      text-align: left;
-      margin: 0.5rem 0;
-      font-size: 1.05rem;
-    }
-
-    button {
-      margin-top: 1rem;
-      font-size: 1.1rem;
-      padding: 0.6rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      background-color: #333;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover { background-color: #555; }
-
-    #message-sondage {
-      margin-top: 1rem;
-      color: #1a7a1a;
-      font-weight: bold;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-centree">
 
   <h1 id="salutation">Bonjour !</h1>
 
@@ -65,13 +14,13 @@
     Les vrais sondages (avec les vraies options A/B/C) seront construits
     proprement à la Phase 6, avec sauvegarde réelle dans Supabase.
   -->
-  <div id="sondage">
+  <div id="sondage" class="carte">
     <h2>Sondage test : ton activité préférée ?</h2>
     <label><input type="radio" name="reponse" value="Piscine"> Piscine</label>
     <label><input type="radio" name="reponse" value="Bowling"> Bowling</label>
     <label><input type="radio" name="reponse" value="Pétanque"> Pétanque</label>
     <button onclick="repondreSondage()">Valider ma réponse</button>
-    <p id="message-sondage"></p>
+    <p id="message-sondage" class="message succes"></p>
   </div>
 
   <!-- On importe la bibliothèque Supabase, comme sur connexion.html -->

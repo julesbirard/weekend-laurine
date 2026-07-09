@@ -3,29 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Espace organisatrice - Tableau de bord</title>
-  <style>
-    body {
-      margin: 0; padding: 2rem; font-family: Arial, sans-serif;
-      background-color: #f5f0e8;
-    }
-    h1 { margin-bottom: 0.5rem; }
-    h2 { margin-top: 2.5rem; }
-    table {
-      border-collapse: collapse; width: 100%; background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    th, td {
-      border: 1px solid #ddd; padding: 0.6rem 0.8rem; text-align: left;
-    }
-    th { background-color: #333; color: white; }
-    tr:nth-child(even) { background-color: #f9f9f9; }
-    #erreur { color: #b00020; font-weight: bold; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-large">
 
   <h1>Tableau de bord organisatrice</h1>
-  <p id="erreur"></p>
+  <p id="erreur" class="erreur"></p>
 
   <h2>Invités</h2>
   <table id="table-invites">

@@ -3,58 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Connexion</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      background-color: #f5f0e8;
-      text-align: center;
-    }
-
-    h1 { font-size: 1.8rem; margin-bottom: 1.5rem; }
-
-    input {
-      font-size: 1.2rem;
-      padding: 0.6rem 1rem;
-      border: 2px solid #333;
-      border-radius: 6px;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      font-size: 1.1rem;
-      padding: 0.6rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      background-color: #333;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover { background-color: #555; }
-
-    #message {
-      margin-top: 1.5rem;
-      font-size: 1.1rem;
-    }
-
-    .erreur { color: #b00020; }
-    .succes { color: #1a7a1a; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-centree">
 
   <div id="etape-code">
     <h1>Entre ton code d'accès</h1>
     <input type="text" id="code" placeholder="Ton code">
     <button onclick="seConnecter()">Se connecter</button>
-    <p id="message"></p>
+    <p id="message" class="message"></p>
   </div>
 
   <!-- Ce formulaire est masqué par défaut (style="display: none").
@@ -66,7 +23,7 @@
     <input type="text" id="surnom" placeholder="Surnom"><br>
     <input type="email" id="email" placeholder="Email"><br>
     <button onclick="validerProfil()">Valider mon profil</button>
-    <p id="message-profil"></p>
+    <p id="message-profil" class="message"></p>
   </div>
 
   <!-- On importe la bibliothèque Supabase, qui fournit les outils prêts à l'emploi

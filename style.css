@@ -1,0 +1,160 @@
+/* ==========================================================================
+   STYLE PARTAGÉ - Site du week-end
+   Ce fichier centralise l'apparence de toutes les pages.
+   Style volontairement neutre : sera remplacé quand l'identité visuelle
+   (section 6 du cahier des charges) sera définie.
+   ========================================================================== */
+
+/* Variables de couleur : les regrouper ici permet de changer toute la palette
+   du site en modifiant seulement ces lignes, plutôt que de chercher chaque
+   couleur dans chaque fichier. */
+:root {
+  --couleur-fond: #f5f0e8;
+  --couleur-texte: #222;
+  --couleur-accent: #333;
+  --couleur-accent-hover: #555;
+  --couleur-succes: #1a7a1a;
+  --couleur-erreur: #b00020;
+  --couleur-carte: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--couleur-fond);
+  color: var(--couleur-texte);
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 1.3rem;
+}
+
+/* ---- Mise en page : pages centrées (teaser, connexion, profil...) ---- */
+.page-centree {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ---- Mise en page : pages larges (tableaux de bord) ---- */
+.page-large {
+  padding: 2rem;
+}
+
+/* ---- Champs de formulaire ---- */
+input[type="text"],
+input[type="email"] {
+  font-size: 1.2rem;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--couleur-accent);
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 1rem;
+  display: block;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* ---- Boutons ---- */
+button {
+  font-size: 1.1rem;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--couleur-accent);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--couleur-accent-hover);
+}
+
+/* ---- Messages de retour (succès / erreur) ---- */
+.message {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.erreur {
+  color: var(--couleur-erreur);
+}
+
+.succes {
+  color: var(--couleur-succes);
+}
+
+/* ---- Compte à rebours (page teaser) ---- */
+#countdown {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.bloc-temps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bloc-temps .valeur {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.bloc-temps .label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: #555;
+}
+
+/* ---- Carte (sondage, blocs mis en avant) ---- */
+.carte {
+  background: var(--couleur-carte);
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carte label {
+  display: block;
+  text-align: left;
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+/* ---- Tableaux (espace organisatrice) ---- */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--couleur-carte);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+}
+
+th {
+  background-color: var(--couleur-accent);
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
