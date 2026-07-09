@@ -61,12 +61,14 @@
   <script>
     // ⚠️ Remplace ces deux valeurs par celles récupérées à l'étape 2
     // (Settings > Data API dans Supabase)
-    const SUPABASE_URL = 'COLLE_TON_PROJECT_URL_ICI';
-    const SUPABASE_KEY = 'COLLE_TA_CLE_ANON_PUBLIC_ICI';
+    const SUPABASE_URL = 'https://fsrjhdxbdpdrdlcovdxg.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_7pg8_ejZTCj1D6dcnuLsSw_Kq4dpuxX';
 
     // On crée un "client" Supabase : l'objet qui va nous permettre de
-    // communiquer avec notre base de données
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // communiquer avec notre base de données.
+    // Note : on l'appelle "supabaseClient" et non "supabase", car la bibliothèque
+    // importée juste au-dessus utilise déjà ce nom pour elle-même.
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function seConnecter() {
       const messageEl = document.getElementById('message');
@@ -83,7 +85,7 @@
 
       // On appelle notre fonction "verifier_code" créée dans Supabase,
       // en lui passant le code saisi par l'invité
-      const { data, error } = await supabase.rpc('verifier_code', { code_saisi: code });
+      const { data, error } = await supabaseClient.rpc('verifier_code', { code_saisi: code });
 
       if (error) {
         // Une erreur technique (connexion, faute dans le nom de la fonction, etc.)
