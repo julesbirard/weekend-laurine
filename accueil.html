@@ -2,65 +2,481 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Le week-end - Accueil</title>
+  <title>Lau's Goodbye Weekend</title>
   <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --creme: #fbf3e6;
+      --encre: #2b2118;
+      --teal: #2f6f62;
+      --corail: #c9503f;
+      --moutarde: #e3a73c;
+      --marine: #2d3e63;
+      --bois: #8b5e3c;
+    }
+
+    body.accueil {
+      background-color: var(--creme);
+      font-family: 'Quicksand', sans-serif;
+      color: var(--encre);
+      overflow-x: hidden; /* évite les barres de défilement horizontales à cause des stickers qui dépassent légèrement */
+    }
+
+    /* ==================== STICKERS DÉCORATIFS ==================== */
+    /* Tous les stickers réutilisent les mêmes petites illustrations (définies
+       une seule fois en bas du fichier dans <symbol>), redimensionnées et
+       tournées légèrement pour un effet "collé à la main". */
+    .sticker {
+      display: inline-block;
+      filter: drop-shadow(0 3px 4px rgba(43, 33, 24, 0.15));
+    }
+
+    /* ---- Scène "ciel" autour du moulin ---- */
+    .scene-ciel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: -0.5rem;
+    }
+
+    .scene-ciel .sticker-soleil { width: 46px; transform: rotate(-8deg); }
+    .scene-ciel .sticker-lune { width: 40px; transform: rotate(10deg); }
+
+    .moulin { width: 120px; height: auto; }
+
+    .moulin-ailes {
+      transform-origin: 100px 90px;
+      animation: tourner 6s linear infinite;
+    }
+
+    @keyframes tourner {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .moulin-ailes { animation: none; }
+    }
+
+    /* ---- Titre + sous-titre ---- */
+    .titre-principal {
+      font-weight: 800;
+      font-size: 2.5rem;
+      margin: 0.8rem 0 0.3rem 0;
+      color: var(--encre);
+    }
+
+    .sous-titre-ligne {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0 0 1.5rem 0;
+    }
+
+    .sous-titre-ligne .sticker-valise { width: 30px; transform: rotate(-10deg); }
+
+    .sous-titre {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--corail);
+    }
+
+    /* ---- Badges d'infos rapides, façon tampons de voyage ---- */
+    .infos-rapides {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .badge-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: #fffdf8;
+      border: 2px dashed var(--marine);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--marine);
+      box-shadow: 0 3px 8px rgba(43, 33, 24, 0.08);
+    }
+
+    .badge-info:nth-child(1) { transform: rotate(-2deg); }
+    .badge-info:nth-child(2) { transform: rotate(2deg); }
+
+    /* ---- Le "billet" du compte à rebours, avec ses stickers ---- */
+    .zone-billet {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto 2.5rem auto;
+      padding-top: 1.2rem; /* laisse de la place pour le sticker qui déborde en haut */
+    }
+
+    .carte-billet {
+      position: relative;
+      background-color: #fffdf8;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(43, 33, 24, 0.1);
+      overflow: hidden;
+    }
+
+    .sticker-disco {
+      position: absolute;
+      top: -0.6rem;
+      left: -0.8rem;
+      width: 48px;
+      transform: rotate(-18deg);
+      z-index: 2;
+    }
+
+    .sticker-confetti {
+      position: absolute;
+      top: -1rem;
+      right: -0.6rem;
+      width: 46px;
+      transform: rotate(12deg);
+      z-index: 2;
+    }
+
+    @media (max-width: 420px) {
+      /* Sur très petit écran, on retire les stickers qui débordent pour
+         éviter tout chevauchement avec le contenu voisin */
+      .sticker-disco, .sticker-confetti { display: none; }
+    }
+
+    .billet-entete {
+      padding: 1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--teal);
+      border-bottom: 2px dashed #e2d8c6;
+    }
+
+    .perforation {
+      position: absolute;
+      top: 3.15rem;
+      width: 18px;
+      height: 18px;
+      background-color: var(--creme);
+      border-radius: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .perforation-gauche { left: -9px; }
+    .perforation-droite { right: -9px; }
+
+    #countdown {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 1.5rem 1rem;
+      flex-wrap: wrap;
+    }
+
+    .bloc-temps .valeur {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--corail);
+    }
+
+    .bloc-temps .label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--marine);
+      opacity: 0.7;
+    }
+
+    /* ---- Texte explicatif, avec une icône par paragraphe ---- */
+    .texte-explicatif {
+      max-width: 560px;
+      margin: 0 auto 2rem auto;
+    }
+
+    .paragraphe-illustre {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      text-align: left;
+    }
+
+    .icone-paragraphe {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fffdf8;
+      box-shadow: 0 3px 8px rgba(43, 33, 24, 0.08);
+    }
+
+    .icone-paragraphe svg { width: 24px; }
+
+    .paragraphe-illustre p {
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* ---- Rangée de danseurs, avant le bouton ---- */
+    .rangee-danseurs {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .sticker-danseur {
+      width: 44px;
+      animation: rebond 1.6s ease-in-out infinite;
+    }
+
+    .sticker-danseur:nth-child(1) { color: var(--teal); animation-delay: 0s; }
+    .sticker-danseur:nth-child(2) { color: var(--corail); animation-delay: 0.2s; transform: rotate(-6deg); }
+    .sticker-danseur:nth-child(3) { color: var(--moutarde); animation-delay: 0.4s; }
+
+    @keyframes rebond {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sticker-danseur { animation: none; }
+    }
+
+    /* ---- Bouton d'appel à l'action, avec ses confettis ---- */
+    .zone-cta {
+      position: relative;
+      display: inline-block;
+    }
+
+    .zone-cta .sticker-confetti-gauche,
+    .zone-cta .sticker-confetti-droite {
+      position: absolute;
+      width: 34px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .zone-cta .sticker-confetti-gauche { left: -2.8rem; transform: translateY(-50%) rotate(-15deg); }
+    .zone-cta .sticker-confetti-droite { right: -2.8rem; transform: translateY(-50%) rotate(15deg); }
+
+    @media (max-width: 480px) {
+      .zone-cta .sticker-confetti-gauche,
+      .zone-cta .sticker-confetti-droite { display: none; }
+    }
+
+    .bouton-cta {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      padding: 0.9rem 2.2rem;
+      border: none;
+      border-radius: 999px;
+      background-color: var(--corail);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(201, 80, 63, 0.35);
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .bouton-cta:hover {
+      background-color: #b5432f;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
-<body class="page-centree">
+<body class="page-centree accueil">
 
-  <!-- 1. Titre -->
-  <h1>Opération dernier câlin avant l'Asie</h1>
+  <!-- Définitions des petites illustrations, réutilisées partout dans la page -->
+  <svg style="display:none" aria-hidden="true">
+    <symbol id="ic-soleil" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="20" fill="var(--moutarde)" />
+      <g stroke="var(--moutarde)" stroke-width="6" stroke-linecap="round">
+        <line x1="50" y1="8" x2="50" y2="20" />
+        <line x1="50" y1="80" x2="50" y2="92" />
+        <line x1="8" y1="50" x2="20" y2="50" />
+        <line x1="80" y1="50" x2="92" y2="50" />
+        <line x1="19" y1="19" x2="27" y2="27" />
+        <line x1="73" y1="73" x2="81" y2="81" />
+        <line x1="81" y1="19" x2="73" y2="27" />
+        <line x1="27" y1="73" x2="19" y2="81" />
+      </g>
+    </symbol>
 
-  <!-- 2. Compte à rebours vers le Jour J -->
-  <div id="countdown">
-    <div class="bloc-temps">
-      <span class="valeur" id="jours">0</span>
-      <span class="label">jours</span>
-    </div>
-    <div class="bloc-temps">
-      <span class="valeur" id="heures">0</span>
-      <span class="label">heures</span>
-    </div>
-    <div class="bloc-temps">
-      <span class="valeur" id="minutes">0</span>
-      <span class="label">min</span>
-    </div>
-    <div class="bloc-temps">
-      <span class="valeur" id="secondes">0</span>
-      <span class="label">sec</span>
+    <symbol id="ic-lune" viewBox="0 0 100 100">
+      <path d="M65,15 A35,35 0 1 0 65,85 A28,28 0 1 1 65,15 Z" fill="var(--marine)" />
+    </symbol>
+
+    <symbol id="ic-valise" viewBox="0 0 100 100">
+      <rect x="15" y="35" width="70" height="50" rx="8" fill="var(--teal)" />
+      <path d="M38,35 V25 a6,6 0 0 1 6,-6 h12 a6,6 0 0 1 6,6 v10" fill="none" stroke="var(--encre)" stroke-width="5" />
+      <rect x="44" y="55" width="12" height="10" rx="2" fill="var(--corail)" />
+    </symbol>
+
+    <symbol id="ic-boussole" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="32" fill="#fffdf8" stroke="var(--marine)" stroke-width="5" />
+      <polygon points="50,28 58,50 50,72 42,50" fill="var(--corail)" />
+      <circle cx="50" cy="50" r="4" fill="var(--marine)" />
+    </symbol>
+
+    <symbol id="ic-avion" viewBox="0 0 100 100">
+      <path d="M10,55 L85,30 L60,50 L70,80 L55,68 L45,78 L42,58 Z" fill="var(--marine)" />
+    </symbol>
+
+    <symbol id="ic-des" viewBox="0 0 100 100">
+      <rect x="15" y="15" width="70" height="70" rx="14" fill="#fffdf8" stroke="var(--encre)" stroke-width="5" />
+      <circle cx="35" cy="35" r="7" fill="var(--corail)" />
+      <circle cx="65" cy="35" r="7" fill="var(--corail)" />
+      <circle cx="50" cy="50" r="7" fill="var(--corail)" />
+      <circle cx="35" cy="65" r="7" fill="var(--corail)" />
+      <circle cx="65" cy="65" r="7" fill="var(--corail)" />
+    </symbol>
+
+    <symbol id="ic-confetti" viewBox="0 0 100 100">
+      <circle cx="25" cy="30" r="7" fill="var(--corail)" />
+      <rect x="60" y="15" width="14" height="14" rx="3" fill="var(--moutarde)" transform="rotate(20 67 22)" />
+      <polygon points="20,70 32,70 26,82" fill="var(--teal)" />
+      <circle cx="70" cy="65" r="6" fill="var(--marine)" />
+      <rect x="45" y="45" width="10" height="10" rx="2" fill="var(--corail)" transform="rotate(45 50 50)" />
+    </symbol>
+
+    <symbol id="ic-danseur" viewBox="0 0 100 100">
+      <circle cx="50" cy="18" r="9" fill="currentColor" />
+      <g stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none">
+        <line x1="50" y1="27" x2="50" y2="60" />
+        <line x1="50" y1="35" x2="30" y2="15" />
+        <line x1="50" y1="35" x2="70" y2="15" />
+        <line x1="50" y1="60" x2="30" y2="88" />
+        <line x1="50" y1="60" x2="68" y2="80" />
+      </g>
+    </symbol>
+  </svg>
+
+  <!-- Scène du ciel, avec le moulin comme élément signature -->
+  <div class="scene-ciel">
+    <svg class="sticker sticker-soleil"><use href="#ic-soleil" /></svg>
+
+    <svg class="moulin" viewBox="0 0 200 200" aria-hidden="true">
+      <polygon points="85,190 115,190 106,90 94,90" fill="var(--bois)" />
+      <polygon points="90,90 110,90 100,72" fill="var(--encre)" />
+      <g class="moulin-ailes">
+        <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(0 100 90)" />
+        <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(90 100 90)" />
+        <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(180 100 90)" />
+        <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(270 100 90)" />
+        <circle cx="100" cy="90" r="6" fill="var(--encre)" />
+      </g>
+    </svg>
+
+    <svg class="sticker sticker-lune"><use href="#ic-lune" /></svg>
+  </div>
+
+  <h1 class="titre-principal">Lau's Goodbye Weekend</h1>
+
+  <div class="sous-titre-ligne">
+    <svg class="sticker sticker-valise"><use href="#ic-valise" /></svg>
+    <p class="sous-titre">One last adventure before Asia.</p>
+  </div>
+
+  <div class="infos-rapides">
+    <span class="badge-info">📍 Moulin des Ducs – Épinac</span>
+    <span class="badge-info">📅 4–6 September 2026</span>
+  </div>
+
+  <div class="zone-billet">
+    <svg class="sticker sticker-disco"><use href="#ic-des" /></svg>
+    <svg class="sticker sticker-confetti"><use href="#ic-confetti" /></svg>
+
+    <div class="carte-billet">
+      <div class="billet-entete">⏳ DÉBUT DE LA FOLIE</div>
+      <div class="perforation perforation-gauche"></div>
+      <div class="perforation perforation-droite"></div>
+
+      <div id="countdown">
+        <div class="bloc-temps">
+          <div class="valeur" id="jours">0</div>
+          <div class="label">JOURS</div>
+        </div>
+        <div class="bloc-temps">
+          <div class="valeur" id="heures">0</div>
+          <div class="label">HEURES</div>
+        </div>
+        <div class="bloc-temps">
+          <div class="valeur" id="minutes">0</div>
+          <div class="label">MIN</div>
+        </div>
+        <div class="bloc-temps">
+          <div class="valeur" id="secondes">0</div>
+          <div class="label">SEC</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 3. Texte explicatif (provisoire, à remplacer par le vrai texte plus tard) -->
-  <p style="max-width: 500px; margin: 2rem 0;">
-    Voilà, c'est officiel : je pars vivre un an à Singapour et me balader partout en Asie.
-    Un rêve que je traîne depuis des années, et que je vais enfin réaliser ! Mais avant de
-    disparaître dans les fumées de street food, dans les paysages asiatiques et chez les
-    locaux, j'ai besoin d'un dernier moment complètement dingue avec vous. Alors on se
-    retrouve tous au Moulin des Ducs, un ancien moulin du 14e siècle transformé en terrain
-    de jeu géant, pour un week-end de bêtises, de fous rires et de bonne bouffe. Bref, venez,
-    on a un an de manque à rattraper avant même que je sois partie !
-  </p>
+  <div class="texte-explicatif">
+    <div class="paragraphe-illustre">
+      <span class="icone-paragraphe"><svg><use href="#ic-avion" /></svg></span>
+      <p>
+        Voilà, c'est officiel : je pars vivre un an à Singapour et explorer l'Asie.
+        Un rêve que je poursuis depuis des années, et qui est enfin sur le point de
+        devenir réalité.
+      </p>
+    </div>
 
-  <!-- 4. Rappel des dates -->
-  <table style="max-width: 500px;">
-    <tbody>
-      <tr><td>Début du week-end</td><td>Vendredi 4 septembre 2026, 17h</td></tr>
-      <tr><td>Fin du week-end</td><td>Dimanche 6 septembre 2026, 17h</td></tr>
-    </tbody>
-  </table>
+    <div class="paragraphe-illustre">
+      <span class="icone-paragraphe"><svg><use href="#ic-boussole" /></svg></span>
+      <p>
+        Mais avant de partir découvrir les marchés de rue, les paysages incroyables
+        et toutes les aventures qui m'attendent, il reste une mission essentielle :
+        passer un dernier week-end complètement inoubliable avec vous.
+      </p>
+    </div>
 
-  <!-- 5. Photo(s) de la maison : espace réservé en attendant une vraie photo -->
-  <div style="width: 100%; max-width: 500px; height: 250px; background-color: #ddd;
-              display: flex; align-items: center; justify-content: center;
-              border-radius: 10px; margin: 2rem 0; color: #777;">
-    Photo du Moulin des Ducs à venir
+    <div class="paragraphe-illustre">
+      <span class="icone-paragraphe"><svg><use href="#ic-des" /></svg></span>
+      <p>
+        Du 4 au 6 septembre, on se retrouve au Moulin des Ducs, un ancien moulin du
+        XIV<sup>e</sup> siècle transformé en véritable terrain de jeu. Au programme :
+        défis, soirées à thème, jeux, bonne bouffe, compétitions plus ou moins
+        sérieuses et énormément de fous rires.
+      </p>
+    </div>
+
+    <div class="paragraphe-illustre">
+      <span class="icone-paragraphe"><svg><use href="#ic-confetti" /></svg></span>
+      <p>Bref... on a un an de manque à rattraper avant même que je sois partie.</p>
+    </div>
   </div>
 
-  <!-- 6. Call-to-action -->
-  <button onclick="window.location.href='connexion.html'">Se connecter</button>
+  <div class="rangee-danseurs">
+    <svg class="sticker sticker-danseur"><use href="#ic-danseur" /></svg>
+    <svg class="sticker sticker-danseur"><use href="#ic-danseur" /></svg>
+    <svg class="sticker sticker-danseur"><use href="#ic-danseur" /></svg>
+  </div>
+
+  <div class="zone-cta">
+    <svg class="sticker sticker-confetti-gauche"><use href="#ic-confetti" /></svg>
+    <button class="bouton-cta" onclick="window.location.href='connexion.html'">Enter the adventure</button>
+    <svg class="sticker sticker-confetti-droite"><use href="#ic-confetti" /></svg>
+  </div>
 
   <script>
-    // Compte à rebours vers le début du week-end (section 3 du cahier des charges)
     const jourJ = new Date('2026-09-04T17:00:00');
 
     function mettreAJourCompteARebours() {
@@ -68,7 +484,6 @@
       const difference = jourJ - maintenant;
 
       if (difference <= 0) {
-        // Le week-end a commencé : on n'affiche plus de compte à rebours négatif
         document.getElementById('countdown').textContent = "C'est parti !";
         return;
       }
