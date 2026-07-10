@@ -4,66 +4,202 @@
   <meta charset="UTF-8">
   <title>Le week-end approche...</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Polices : Caveat (manuscrite, pour l'accroche) + Quicksand (ronde, pour le reste) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Palette et typographie propres à cette page, inspirées du mood board.
+       Ces variables ne concernent que cette page : elles n'affectent pas
+       les autres fichiers du site. */
+    :root {
+      --creme: #fbf3e6;
+      --encre: #2b2118;
+      --teal: #2f6f62;
+      --corail: #c9503f;
+      --moutarde: #e3a73c;
+      --marine: #2d3e63;
+      --bois: #8b5e3c;
+    }
+
+    body.teaser {
+      background-color: var(--creme);
+      font-family: 'Quicksand', sans-serif;
+      color: var(--encre);
+    }
+
+    /* ---- Le moulin animé : élément signature de la page ---- */
+    .moulin {
+      width: 130px;
+      height: auto;
+      margin-bottom: 0.5rem;
+    }
+
+    .moulin-ailes {
+      transform-origin: 100px 90px;
+      animation: tourner 6s linear infinite;
+    }
+
+    @keyframes tourner {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Respecte les préférences d'accessibilité : pas d'animation si demandé */
+    @media (prefers-reduced-motion: reduce) {
+      .moulin-ailes { animation: none; }
+    }
+
+    /* ---- Accroche manuscrite ---- */
+    .accroche {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--marine);
+      margin: 0 0 2rem 0;
+    }
+
+    /* ---- Le "billet" contenant le compte à rebours ---- */
+    .carte-billet {
+      position: relative;
+      background-color: #fffdf8;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(43, 33, 24, 0.1);
+      width: 100%;
+      max-width: 380px;
+      overflow: hidden;
+    }
+
+    .billet-entete {
+      padding: 1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--teal);
+      border-bottom: 2px dashed #e2d8c6;
+    }
+
+    /* Petites perforations façon billet, de part et d'autre du pointillé */
+    .perforation {
+      position: absolute;
+      top: 3.15rem;
+      width: 18px;
+      height: 18px;
+      background-color: var(--creme);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .perforation-gauche { left: -9px; }
+    .perforation-droite { right: -9px; }
+
+    #countdown {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 1.5rem 1rem;
+      flex-wrap: wrap;
+    }
+
+    .bloc-temps .valeur {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--corail);
+    }
+
+    .bloc-temps .label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--marine);
+      opacity: 0.7;
+    }
+
+    .billet-pied {
+      text-align: center;
+      padding: 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--bois);
+      background-color: #f6ecd9;
+    }
+  </style>
 </head>
-<body class="page-centree">
+<body class="page-centree teaser">
 
-  <h1>Le week-end approche...</h1>
+  <!-- Élément signature : un petit moulin, clin d'œil au Moulin des Ducs -->
+  <svg class="moulin" viewBox="0 0 200 200" aria-hidden="true">
+    <!-- Tour du moulin -->
+    <polygon points="85,190 115,190 106,90 94,90" fill="var(--bois)" />
+    <!-- Toit du moulin -->
+    <polygon points="90,90 110,90 100,72" fill="var(--encre)" />
+    <!-- Ailes, regroupées pour pouvoir les faire tourner ensemble -->
+    <g class="moulin-ailes">
+      <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(0 100 90)" />
+      <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(90 100 90)" />
+      <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(180 100 90)" />
+      <rect x="97" y="35" width="6" height="55" rx="3" fill="var(--moutarde)" stroke="var(--encre)" stroke-width="2" transform="rotate(270 100 90)" />
+      <circle cx="100" cy="90" r="6" fill="var(--encre)" />
+    </g>
+  </svg>
 
-  <!-- Ces 4 blocs seront remplis dynamiquement par le JavaScript ci-dessous -->
-  <div id="countdown">
-    <div class="bloc-temps">
-      <span class="valeur" id="jours">0</span>
-      <span class="label">jours</span>
+  <p class="accroche">Quelque chose de mémorable se prépare...</p>
+
+  <div class="carte-billet">
+    <div class="billet-entete">OUVERTURE DU SITE</div>
+    <div class="perforation perforation-gauche"></div>
+    <div class="perforation perforation-droite"></div>
+
+    <div id="countdown">
+      <div class="bloc-temps">
+        <div class="valeur" id="jours">0</div>
+        <div class="label">JOURS</div>
+      </div>
+      <div class="bloc-temps">
+        <div class="valeur" id="heures">0</div>
+        <div class="label">HEURES</div>
+      </div>
+      <div class="bloc-temps">
+        <div class="valeur" id="minutes">0</div>
+        <div class="label">MIN</div>
+      </div>
+      <div class="bloc-temps">
+        <div class="valeur" id="secondes">0</div>
+        <div class="label">SEC</div>
+      </div>
     </div>
-    <div class="bloc-temps">
-      <span class="valeur" id="heures">0</span>
-      <span class="label">heures</span>
-    </div>
-    <div class="bloc-temps">
-      <span class="valeur" id="minutes">0</span>
-      <span class="label">min</span>
-    </div>
-    <div class="bloc-temps">
-      <span class="valeur" id="secondes">0</span>
-      <span class="label">sec</span>
-    </div>
+
+    <div class="billet-pied">25 juillet 2026</div>
   </div>
 
   <script>
-    // La date d'ouverture du site, telle que définie dans le cahier des charges (section 3)
-    // Format : année-mois-jourTheure:minute:seconde
+    // Même logique de compte à rebours et de bascule automatique qu'avant,
+    // seul l'habillage visuel a changé.
     const dateOuverture = new Date('2026-07-25T00:00:00');
 
-    // Cette fonction s'exécute en boucle toutes les secondes
     function mettreAJourCompteARebours() {
       const maintenant = new Date();
-      const difference = dateOuverture - maintenant; // différence en millisecondes
+      const difference = dateOuverture - maintenant;
 
-      // Si la différence est négative ou nulle, la date d'ouverture est atteinte ou dépassée :
-      // on redirige immédiatement vers la page d'accueil, comme demandé dans le brief.
       if (difference <= 0) {
         window.location.href = 'accueil.html';
-        return; // on arrête ici, pas besoin de continuer le calcul
+        return;
       }
 
-      // Conversion de la différence (en millisecondes) en jours / heures / minutes / secondes
       const jours = Math.floor(difference / (1000 * 60 * 60 * 24));
       const heures = Math.floor((difference / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((difference / (1000 * 60)) % 60);
       const secondes = Math.floor((difference / 1000) % 60);
 
-      // On met à jour le texte affiché à l'écran
       document.getElementById('jours').textContent = jours;
       document.getElementById('heures').textContent = heures;
       document.getElementById('minutes').textContent = minutes;
       document.getElementById('secondes').textContent = secondes;
     }
 
-    // On lance le calcul une première fois immédiatement (sinon il faudrait attendre 1 seconde
-    // avant que quoi que ce soit ne s'affiche)
     mettreAJourCompteARebours();
-
-    // Puis on répète ce calcul toutes les 1000 millisecondes (= toutes les secondes)
     setInterval(mettreAJourCompteARebours, 1000);
   </script>
 
