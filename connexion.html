@@ -4,26 +4,135 @@
   <meta charset="UTF-8">
   <title>Connexion</title>
   <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --creme: #fbf3e6;
+      --encre: #2b2118;
+      --teal: #2f6f62;
+      --corail: #c9503f;
+      --moutarde: #e3a73c;
+      --marine: #2d3e63;
+      --bois: #8b5e3c;
+    }
+
+    body.connexion {
+      background-color: var(--creme);
+      font-family: 'Quicksand', sans-serif;
+      color: var(--encre);
+    }
+
+    .zone-carte {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      padding-top: 1rem;
+    }
+
+    .sticker-billet {
+      position: absolute;
+      top: -0.8rem;
+      left: -1rem;
+      width: 50px;
+      transform: rotate(-15deg);
+      filter: drop-shadow(0 3px 4px rgba(43, 33, 24, 0.15));
+      z-index: 2;
+    }
+
+    @media (max-width: 420px) {
+      .sticker-billet { display: none; }
+    }
+
+    .carte-connexion {
+      background-color: #fffdf8;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(43, 33, 24, 0.1);
+      padding: 2rem 1.8rem;
+      text-align: center;
+    }
+
+    .carte-connexion h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 1.4rem 0;
+      color: var(--encre);
+    }
+
+    .carte-connexion input {
+      width: 100%;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 0.7rem 1rem;
+      border: 2px solid var(--marine);
+      border-radius: 999px;
+      text-align: center;
+      margin-bottom: 0.9rem;
+      color: var(--encre);
+      background-color: var(--creme);
+    }
+
+    .carte-connexion input::placeholder {
+      color: #9a8f7e;
+    }
+
+    .carte-connexion button {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 999px;
+      background-color: var(--corail);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(201, 80, 63, 0.3);
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .carte-connexion button:hover {
+      background-color: #b5432f;
+      transform: translateY(-2px);
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+  </style>
 </head>
-<body class="page-centree">
+<body class="page-centree connexion">
 
-  <div id="etape-code">
-    <h1>Entre ton code d'accès</h1>
-    <input type="text" id="code" placeholder="Ton code">
-    <button onclick="seConnecter()">Se connecter</button>
-    <p id="message" class="message"></p>
-  </div>
+  <svg style="display:none" aria-hidden="true">
+    <symbol id="ic-avion" viewBox="0 0 100 100">
+      <path d="M10,55 L85,30 L60,50 L70,80 L55,68 L45,78 L42,58 Z" fill="var(--marine)" />
+    </symbol>
+  </svg>
 
-  <!-- Ce formulaire est masqué par défaut (style="display: none").
-       Le JavaScript ci-dessous l'affichera uniquement si profil_complete = false -->
-  <div id="etape-profil" style="display: none;">
-    <h1>Complète ton profil</h1>
-    <input type="text" id="nom" placeholder="Nom"><br>
-    <input type="text" id="prenom" placeholder="Prénom"><br>
-    <input type="text" id="surnom" placeholder="Surnom"><br>
-    <input type="email" id="email" placeholder="Email"><br>
-    <button onclick="validerProfil()">Valider mon profil</button>
-    <p id="message-profil" class="message"></p>
+  <div class="zone-carte">
+    <svg class="sticker-billet"><use href="#ic-avion" /></svg>
+
+    <div id="etape-code" class="carte-connexion">
+      <h1>Entre ton code d'accès</h1>
+      <input type="text" id="code" placeholder="Indique ton code super méga secret">
+      <button onclick="seConnecter()">Enter the adventure</button>
+      <p id="message" class="message"></p>
+    </div>
+
+    <!-- Ce formulaire est masqué par défaut (style="display: none").
+         Le JavaScript ci-dessous l'affichera uniquement si profil_complete = false -->
+    <div id="etape-profil" class="carte-connexion" style="display: none;">
+      <h1>Complète ton profil</h1>
+      <input type="text" id="nom" placeholder="Nom">
+      <input type="text" id="prenom" placeholder="Prénom">
+      <input type="text" id="surnom" placeholder="Surnom">
+      <input type="email" id="email" placeholder="Email">
+      <button onclick="validerProfil()">Valider mon profil</button>
+      <p id="message-profil" class="message"></p>
+    </div>
   </div>
 
   <!-- On importe la bibliothèque Supabase, qui fournit les outils prêts à l'emploi
