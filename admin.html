@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title>Espace organisatrice - Tableau de bord</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .conteneur-scroll { overflow-x: auto; margin-bottom: 2rem; }
+    #table-reponses { min-width: 1600px; }
+    #table-reponses th, #table-reponses td { white-space: nowrap; }
+  </style>
 </head>
 <body class="page-large">
 
@@ -20,13 +25,25 @@
     <tbody></tbody>
   </table>
 
-  <h2>Réponses au sondage test</h2>
-  <table id="table-reponses">
-    <thead>
-      <tr><th>Code invité</th><th>Réponse</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <h2>Réponses détaillées</h2>
+  <div class="conteneur-scroll">
+    <table id="table-reponses">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Date arrivée</th><th>Heure arrivée</th><th>Moyen arrivée</th>
+          <th>Date départ</th><th>Heure départ</th><th>Moyen départ</th>
+          <th>Régime</th><th>Allergies</th><th>Aliments détestés</th>
+          <th>Chambre préférée</th><th>Avec qui</th><th>Éviter qui</th>
+          <th>Repas ven. soir</th><th>Repas sam. midi</th><th>Repas sam. soir</th><th>Repas dim. matin</th>
+          <th>Boissons</th>
+          <th>Thème ven.</th><th>Thème sam.</th>
+          <th>Activité sam. matin</th><th>Activité sam. aprem</th><th>Activité dim. matin</th><th>Activité dim. aprem</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -35,6 +52,13 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const codeAdmin = sessionStorage.getItem('codeAdmin');
+
+    // Affiche proprement une valeur vide ou un tableau (allergies, boissons)
+    function afficher(valeur) {
+      if (valeur === null || valeur === undefined || valeur === '') return '—';
+      if (Array.isArray(valeur)) return valeur.length > 0 ? valeur.join(', ') : '—';
+      return valeur;
+    }
 
     async function chargerDonnees() {
       if (!codeAdmin) {
@@ -46,7 +70,7 @@
       // On charge les invités et les réponses en parallèle (plus rapide que l'un après l'autre)
       const [resultInvites, resultReponses] = await Promise.all([
         supabaseClient.rpc('lire_invites', { code_admin: codeAdmin }),
-        supabaseClient.rpc('lire_reponses_sondage', { code_admin: codeAdmin })
+        supabaseClient.rpc('lire_toutes_reponses', { code_admin: codeAdmin })
       ]);
 
       if (resultInvites.error || resultReponses.error) {
@@ -77,11 +101,36 @@
         corpsInvites.appendChild(ligne);
       });
 
-      // Remplissage du tableau des réponses au sondage
+      // Remplissage du tableau des réponses détaillées
       const corpsReponses = document.querySelector('#table-reponses tbody');
-      resultReponses.data.forEach(reponse => {
+      resultReponses.data.forEach(r => {
         const ligne = document.createElement('tr');
-        ligne.innerHTML = `<td>${reponse.code_acces}</td><td>${reponse.reponse}</td>`;
+        ligne.innerHTML = `
+          <td>${afficher(r.code_acces)}</td>
+          <td>${afficher(r.date_arrivee)}</td>
+          <td>${afficher(r.heure_arrivee)}</td>
+          <td>${afficher(r.moyen_arrivee === 'Autre' ? r.autre_moyen_arrivee : r.moyen_arrivee)}</td>
+          <td>${afficher(r.date_depart)}</td>
+          <td>${afficher(r.heure_depart)}</td>
+          <td>${afficher(r.moyen_depart === 'Autre' ? r.autre_moyen_depart : r.moyen_depart)}</td>
+          <td>${afficher(r.regime_alimentaire)}</td>
+          <td>${afficher(r.allergies)}${r.autre_allergie ? ' (' + r.autre_allergie + ')' : ''}</td>
+          <td>${afficher(r.aliments_detestes)}</td>
+          <td>${afficher(r.preference_chambre)}</td>
+          <td>${afficher(r.avec_qui)}</td>
+          <td>${afficher(r.eviter_qui)}</td>
+          <td>${afficher(r.repas_vendredi_soir)}</td>
+          <td>${afficher(r.repas_samedi_midi)}</td>
+          <td>${afficher(r.repas_samedi_soir)}</td>
+          <td>${afficher(r.repas_dimanche_matin)}</td>
+          <td>${afficher(r.boissons)}</td>
+          <td>${afficher(r.theme_vendredi)}</td>
+          <td>${afficher(r.theme_samedi)}</td>
+          <td>${afficher(r.activite_samedi_matin)}</td>
+          <td>${afficher(r.activite_samedi_apres_midi)}</td>
+          <td>${afficher(r.activite_dimanche_matin)}</td>
+          <td>${afficher(r.activite_dimanche_apres_midi)}</td>
+        `;
         corpsReponses.appendChild(ligne);
       });
     }
