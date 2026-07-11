@@ -204,6 +204,7 @@
         // puis on redirige vers la page personnelle
         sessionStorage.setItem('code', code);
         sessionStorage.setItem('prenom', invite.prenom);
+        sessionStorage.setItem('surnom', invite.surnom);
         window.location.href = 'dashboard-test.html';
       }
     }
@@ -252,6 +253,7 @@
       // On stocke le code et le surnom, puis on redirige vers la page personnelle
       sessionStorage.setItem('code', codeInviteActuel);
       sessionStorage.setItem('prenom', prenom);
+      sessionStorage.setItem('surnom', surnom);
       setTimeout(() => { window.location.href = 'dashboard-test.html'; }, 800);
     }
   </script>

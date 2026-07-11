@@ -21,6 +21,32 @@
     .description-chambres p { margin: 0.4rem 0; }
     #bouton-enregistrer { margin-top: 2rem; font-size: 1.1rem; padding: 0.7rem 1.5rem; }
     #message-global { margin-top: 1rem; font-weight: bold; }
+
+    /* Champs côte à côte (arrivée / départ) */
+    .rangee-champs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .rangee-champs .champ {
+      flex: 1 1 150px;
+      margin-bottom: 0;
+    }
+    .sous-titre-mission {
+      font-weight: bold;
+      margin: 1rem 0 0.5rem 0;
+    }
+
+    /* Grille 4 colonnes pour les cases à cocher du bar */
+    .grille-cases {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem 1rem;
+    }
+    @media (max-width: 500px) {
+      .grille-cases { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
@@ -35,53 +61,59 @@
   <p>Bonne préparation !</p>
 
   <!-- ============ MISSION 1 : TRANSPORT ============ -->
-  <h2>1. Mission n°1 : Transport</h2>
+  <h2>Mission n°1 : Transport</h2>
   <p>Planifie ton arrivée et ton départ.</p>
 
-  <div class="champ">
-    <label for="date_arrivee">Date d'arrivée</label>
-    <input type="date" id="date_arrivee">
-  </div>
-  <div class="champ">
-    <label for="heure_arrivee">Heure d'arrivée</label>
-    <input type="time" id="heure_arrivee">
-  </div>
-  <div class="champ">
-    <label for="moyen_arrivee">Moyen de transport (arrivée)</label>
-    <select id="moyen_arrivee">
-      <option value="">Sélectionner...</option>
-      <option value="Train">Train</option>
-      <option value="Voiture">Voiture</option>
-      <option value="Avion">Avion</option>
-      <option value="Jetski">Jetski</option>
-      <option value="Poney">Poney</option>
-      <option value="Autre">Autre</option>
-    </select>
+  <p class="sous-titre-mission">Ton arrivée</p>
+  <div class="rangee-champs">
+    <div class="champ">
+      <label for="date_arrivee">Date d'arrivée</label>
+      <input type="date" id="date_arrivee">
+    </div>
+    <div class="champ">
+      <label for="heure_arrivee">Heure d'arrivée</label>
+      <input type="time" id="heure_arrivee">
+    </div>
+    <div class="champ">
+      <label for="moyen_arrivee">Moyen de transport</label>
+      <select id="moyen_arrivee">
+        <option value="">Sélectionner...</option>
+        <option value="Train">Train</option>
+        <option value="Voiture">Voiture</option>
+        <option value="Avion">Avion</option>
+        <option value="Jetski">Jetski</option>
+        <option value="Poney">Poney</option>
+        <option value="Autre">Autre</option>
+      </select>
+    </div>
   </div>
   <div class="champ" id="bloc-autre-arrivee" style="display: none;">
     <label for="autre_moyen_arrivee">Précise ton moyen de transport</label>
     <input type="text" id="autre_moyen_arrivee">
   </div>
 
-  <div class="champ">
-    <label for="date_depart">Date de départ</label>
-    <input type="date" id="date_depart">
-  </div>
-  <div class="champ">
-    <label for="heure_depart">Heure de départ</label>
-    <input type="time" id="heure_depart">
-  </div>
-  <div class="champ">
-    <label for="moyen_depart">Moyen de transport (départ)</label>
-    <select id="moyen_depart">
-      <option value="">Sélectionner...</option>
-      <option value="Train">Train</option>
-      <option value="Voiture">Voiture</option>
-      <option value="Avion">Avion</option>
-      <option value="Jetski">Jetski</option>
-      <option value="Poney">Poney</option>
-      <option value="Autre">Autre</option>
-    </select>
+  <p class="sous-titre-mission">Ton départ</p>
+  <div class="rangee-champs">
+    <div class="champ">
+      <label for="date_depart">Date de départ</label>
+      <input type="date" id="date_depart">
+    </div>
+    <div class="champ">
+      <label for="heure_depart">Heure de départ</label>
+      <input type="time" id="heure_depart">
+    </div>
+    <div class="champ">
+      <label for="moyen_depart">Moyen de transport</label>
+      <select id="moyen_depart">
+        <option value="">Sélectionner...</option>
+        <option value="Train">Train</option>
+        <option value="Voiture">Voiture</option>
+        <option value="Avion">Avion</option>
+        <option value="Jetski">Jetski</option>
+        <option value="Poney">Poney</option>
+        <option value="Autre">Autre</option>
+      </select>
+    </div>
   </div>
   <div class="champ" id="bloc-autre-depart" style="display: none;">
     <label for="autre_moyen_depart">Précise ton moyen de transport</label>
@@ -89,10 +121,10 @@
   </div>
 
   <!-- ============ MISSION 2 : ALIMENTATION ============ -->
-  <h2>2. Mission n°2 : Alimentation</h2>
+  <h2>Mission n°2 : Alimentation</h2>
 
   <div class="champ">
-    <label for="regime_alimentaire">Régime alimentaire</label>
+    <label for="regime_alimentaire">Ton régime alimentaire ?</label>
     <select id="regime_alimentaire">
       <option value="">Sélectionner...</option>
       <option value="Aucun régime particulier">Aucun régime particulier</option>
@@ -104,7 +136,7 @@
   </div>
 
   <div class="champ">
-    <label>Mes allergies</label>
+    <label>Tu as des allergies ?</label>
     <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Arachides"> Arachides</label>
     <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Fruits à coque"> Fruits à coque</label>
     <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Lait de vache"> Lait de vache</label>
@@ -129,7 +161,7 @@
   </div>
 
   <!-- ============ MISSION 3 : LES CHAMBRES ============ -->
-  <h2>3. Mission n°3 : Les chambres</h2>
+  <h2>Mission n°3 : Les chambres</h2>
 
   <div class="description-chambres">
     <p><strong>Lit double</strong> : pour les jeunes couples en quête d'intimité, ou les couples qui ont prévu de naître pendant le séjour</p>
@@ -160,7 +192,7 @@
   </div>
 
   <!-- ============ MISSION 4 : LES REPAS ============ -->
-  <h2>4. Mission n°4 : Les repas</h2>
+  <h2>Mission n°4 : Les repas</h2>
 
   <div class="champ">
     <label for="repas_vendredi_soir">Vendredi soir</label>
@@ -200,21 +232,23 @@
   </div>
 
   <!-- ============ MISSION 5 : LE BAR ============ -->
-  <h2>5. Mission n°5 : Le Bar</h2>
+  <h2>Mission n°5 : Le Bar</h2>
   <div class="champ">
     <label>Que voudrais-tu retrouver au bar ?</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin rouge"> Vin rouge</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin blanc"> Vin blanc</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Bière"> Bière</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Mojito"> Mojito</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Spritz"> Spritz</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Pornstar Martini"> Pornstar Martini</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Cocktail X"> Cocktail X</label>
-    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Cocktail Y"> Cocktail Y</label>
+    <div class="grille-cases">
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin rouge"> Vin rouge</label>
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin blanc"> Vin blanc</label>
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Bière"> Bière</label>
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Mojito"> Mojito</label>
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Spritz"> Spritz</label>
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Pornstar Martini"> Pornstar Martini</label>
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Cocktail X"> Cocktail X</label>
+      <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Cocktail Y"> Cocktail Y</label>
+    </div>
   </div>
 
   <!-- ============ MISSION 6 : THEME DES SOIREES ============ -->
-  <h2>6. Mission n°6 : Thème des soirées</h2>
+  <h2>Mission n°6 : Thème des soirées</h2>
   <div class="champ">
     <label for="theme_vendredi">Vendredi soir</label>
     <select id="theme_vendredi">
@@ -235,7 +269,7 @@
   </div>
 
   <!-- ============ MISSION 7 : LES ACTIVITES ============ -->
-  <h2>7. Mission n°7 : Les activités</h2>
+  <h2>Mission n°7 : Les activités</h2>
   <div class="champ">
     <label for="activite_samedi_matin">Samedi matin</label>
     <select id="activite_samedi_matin">
@@ -283,10 +317,10 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const code = sessionStorage.getItem('code');
-    const prenom = sessionStorage.getItem('prenom');
+    const surnom = sessionStorage.getItem('surnom');
 
-    document.getElementById('salutation').textContent = prenom
-      ? `Welcome, ${prenom} 👋`
+    document.getElementById('salutation').textContent = surnom
+      ? `Welcome, ${surnom} 👋`
       : 'Welcome ! (connecte-toi via connexion.html)';
 
     // Affiche/masque le champ "précise ton moyen de transport" selon le choix fait
