@@ -2,77 +2,373 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Ta page</title>
+  <title>Ton espace personnel</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Style minimal, juste pour que ce soit lisible pendant qu'on travaille
+       le contenu. La vraie mise en forme viendra dans une prochaine étape. */
+    body { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
+    h1 { font-size: 1.8rem; }
+    h2 { margin-top: 2.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
+    .champ { margin-bottom: 1.2rem; }
+    .champ label { display: block; font-weight: bold; margin-bottom: 0.3rem; }
+    .champ select, .champ input[type="text"], .champ input[type="date"],
+    .champ input[type="time"], .champ textarea {
+      width: 100%; max-width: 400px; padding: 0.5rem; font-size: 1rem;
+    }
+    .case-a-cocher { display: block; font-weight: normal; margin-bottom: 0.3rem; }
+    .description-chambres { background: #f5f0e8; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    .description-chambres p { margin: 0.4rem 0; }
+    #bouton-enregistrer { margin-top: 2rem; font-size: 1.1rem; padding: 0.7rem 1.5rem; }
+    #message-global { margin-top: 1rem; font-weight: bold; }
+  </style>
 </head>
-<body class="page-centree">
+<body>
 
-  <h1 id="salutation">Bonjour !</h1>
+  <h1 id="salutation">Welcome, 👋</h1>
+  <p>Bienvenue dans ton espace personnel !</p>
+  <p>Si tu es arrivé(e) jusqu'ici, c'est que tu fais officiellement partie des invités du Lau's Goodbye Weekend.</p>
+  <p>Comme tu le sais probablement déjà, j'aime beaucoup organiser les choses... alors cette fois-ci, j'ai décidé de passer au niveau supérieur !</p>
+  <p>Tu trouveras ici toutes les informations utiles pour préparer le week-end, mais surtout plusieurs questions qui vont m'aider à organiser ces trois jours au mieux.</p>
+  <p>Certaines concernent l'organisation, d'autres sont beaucoup plus fun. Ton avis compte vraiment, alors prends quelques minutes pour tout compléter.</p>
+  <p>Tu peux modifier tes réponses jusqu'au <strong>15 août 2026</strong>.</p>
+  <p>Bonne préparation !</p>
 
-  <!--
-    Sondage TEST uniquement, pour valider le principe.
-    Les vrais sondages (avec les vraies options A/B/C) seront construits
-    proprement à la Phase 6, avec sauvegarde réelle dans Supabase.
-  -->
-  <div id="sondage" class="carte">
-    <h2>Sondage test : ton activité préférée ?</h2>
-    <label><input type="radio" name="reponse" value="Piscine"> Piscine</label>
-    <label><input type="radio" name="reponse" value="Bowling"> Bowling</label>
-    <label><input type="radio" name="reponse" value="Pétanque"> Pétanque</label>
-    <button onclick="repondreSondage()">Valider ma réponse</button>
-    <p id="message-sondage" class="message succes"></p>
+  <!-- ============ MISSION 1 : TRANSPORT ============ -->
+  <h2>1. Mission n°1 : Transport</h2>
+  <p>Planifie ton arrivée et ton départ.</p>
+
+  <div class="champ">
+    <label for="date_arrivee">Date d'arrivée</label>
+    <input type="date" id="date_arrivee">
+  </div>
+  <div class="champ">
+    <label for="heure_arrivee">Heure d'arrivée</label>
+    <input type="time" id="heure_arrivee">
+  </div>
+  <div class="champ">
+    <label for="moyen_arrivee">Moyen de transport (arrivée)</label>
+    <select id="moyen_arrivee">
+      <option value="">Sélectionner...</option>
+      <option value="Train">Train</option>
+      <option value="Voiture">Voiture</option>
+      <option value="Avion">Avion</option>
+      <option value="Jetski">Jetski</option>
+      <option value="Poney">Poney</option>
+      <option value="Autre">Autre</option>
+    </select>
+  </div>
+  <div class="champ" id="bloc-autre-arrivee" style="display: none;">
+    <label for="autre_moyen_arrivee">Précise ton moyen de transport</label>
+    <input type="text" id="autre_moyen_arrivee">
   </div>
 
-  <!-- On importe la bibliothèque Supabase, comme sur connexion.html -->
+  <div class="champ">
+    <label for="date_depart">Date de départ</label>
+    <input type="date" id="date_depart">
+  </div>
+  <div class="champ">
+    <label for="heure_depart">Heure de départ</label>
+    <input type="time" id="heure_depart">
+  </div>
+  <div class="champ">
+    <label for="moyen_depart">Moyen de transport (départ)</label>
+    <select id="moyen_depart">
+      <option value="">Sélectionner...</option>
+      <option value="Train">Train</option>
+      <option value="Voiture">Voiture</option>
+      <option value="Avion">Avion</option>
+      <option value="Jetski">Jetski</option>
+      <option value="Poney">Poney</option>
+      <option value="Autre">Autre</option>
+    </select>
+  </div>
+  <div class="champ" id="bloc-autre-depart" style="display: none;">
+    <label for="autre_moyen_depart">Précise ton moyen de transport</label>
+    <input type="text" id="autre_moyen_depart">
+  </div>
+
+  <!-- ============ MISSION 2 : ALIMENTATION ============ -->
+  <h2>2. Mission n°2 : Alimentation</h2>
+
+  <div class="champ">
+    <label for="regime_alimentaire">Régime alimentaire</label>
+    <select id="regime_alimentaire">
+      <option value="">Sélectionner...</option>
+      <option value="Aucun régime particulier">Aucun régime particulier</option>
+      <option value="Végétarien">Végétarien</option>
+      <option value="Végan">Végan</option>
+      <option value="Sans gluten">Sans gluten</option>
+      <option value="Autre">Autre</option>
+    </select>
+  </div>
+
+  <div class="champ">
+    <label>Mes allergies</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Arachides"> Arachides</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Fruits à coque"> Fruits à coque</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Lait de vache"> Lait de vache</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Œuf"> Œuf</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Poisson"> Poisson</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Crustacés et mollusques"> Crustacés et mollusques</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Soja"> Soja</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Laurine"> Laurine (ou un·e de ses ami·e·s)</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Blé / gluten"> Blé / gluten</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Sésame"> Sésame</label>
+    <label class="case-a-cocher"><input type="checkbox" name="allergies" value="Céleri"> Céleri</label>
+    <label class="case-a-cocher"><input type="checkbox" id="case-autre-allergie" name="allergies" value="Autre"> Autre</label>
+  </div>
+  <div class="champ" id="bloc-autre-allergie" style="display: none;">
+    <label for="autre_allergie">Précise ton allergie</label>
+    <input type="text" id="autre_allergie">
+  </div>
+
+  <div class="champ">
+    <label for="aliments_detestes">Des choses que tu n'aimes vraiment pas ?</label>
+    <textarea id="aliments_detestes" rows="2"></textarea>
+  </div>
+
+  <!-- ============ MISSION 3 : LES CHAMBRES ============ -->
+  <h2>3. Mission n°3 : Les chambres</h2>
+
+  <div class="description-chambres">
+    <p><strong>Lit double</strong> : pour les jeunes couples en quête d'intimité, ou les couples qui ont prévu de naître pendant le séjour</p>
+    <p><strong>Lits simples</strong> : pour les vrais copains qui ont prévu de ronfler ensemble, ou les vieux couples qui s'en fichent de dormir ensemble</p>
+    <p><strong>Double + simple</strong> : pour les parents avec enfants, ou qui ont un pote à gérer comme un enfant</p>
+    <p><strong>Sans prétention</strong> : pour les baroudeurs fêtards : canapé, matelas gonflable, table/chaise ou transat au bord de la piscine</p>
+  </div>
+
+  <div class="champ">
+    <label for="preference_chambre">Une préférence ?</label>
+    <select id="preference_chambre">
+      <option value="">Sélectionner...</option>
+      <option value="Lit double">Lit double</option>
+      <option value="Lits simples">Lits simples</option>
+      <option value="Double + simple">Double + simple</option>
+      <option value="Sans prétention">Sans prétention</option>
+    </select>
+  </div>
+
+  <div class="champ">
+    <label for="avec_qui">Avec qui souhaites-tu être ?</label>
+    <input type="text" id="avec_qui">
+  </div>
+
+  <div class="champ">
+    <label for="eviter_qui">Y a-t-il des personnes avec qui tu préfères ne pas dormir ? (Promis, on ne juge pas 😄)</label>
+    <input type="text" id="eviter_qui">
+  </div>
+
+  <!-- ============ MISSION 4 : LES REPAS ============ -->
+  <h2>4. Mission n°4 : Les repas</h2>
+
+  <div class="champ">
+    <label for="repas_vendredi_soir">Vendredi soir</label>
+    <select id="repas_vendredi_soir">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+  <div class="champ">
+    <label for="repas_samedi_midi">Samedi matin/midi</label>
+    <select id="repas_samedi_midi">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+  <div class="champ">
+    <label for="repas_samedi_soir">Samedi soir</label>
+    <select id="repas_samedi_soir">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+  <div class="champ">
+    <label for="repas_dimanche_matin">Dimanche matin</label>
+    <select id="repas_dimanche_matin">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+
+  <!-- ============ MISSION 5 : LE BAR ============ -->
+  <h2>5. Mission n°5 : Le Bar</h2>
+  <div class="champ">
+    <label>Que voudrais-tu retrouver au bar ?</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin rouge"> Vin rouge</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin blanc"> Vin blanc</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Bière"> Bière</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Mojito"> Mojito</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Spritz"> Spritz</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Pornstar Martini"> Pornstar Martini</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Cocktail X"> Cocktail X</label>
+    <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Cocktail Y"> Cocktail Y</label>
+  </div>
+
+  <!-- ============ MISSION 6 : THEME DES SOIREES ============ -->
+  <h2>6. Mission n°6 : Thème des soirées</h2>
+  <div class="champ">
+    <label for="theme_vendredi">Vendredi soir</label>
+    <select id="theme_vendredi">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+  <div class="champ">
+    <label for="theme_samedi">Samedi soir</label>
+    <select id="theme_samedi">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+
+  <!-- ============ MISSION 7 : LES ACTIVITES ============ -->
+  <h2>7. Mission n°7 : Les activités</h2>
+  <div class="champ">
+    <label for="activite_samedi_matin">Samedi matin</label>
+    <select id="activite_samedi_matin">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+  <div class="champ">
+    <label for="activite_samedi_apres_midi">Samedi après-midi</label>
+    <select id="activite_samedi_apres_midi">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+  <div class="champ">
+    <label for="activite_dimanche_matin">Dimanche matin</label>
+    <select id="activite_dimanche_matin">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+  <div class="champ">
+    <label for="activite_dimanche_apres_midi">Dimanche après-midi</label>
+    <select id="activite_dimanche_apres_midi">
+      <option value="">Sélectionner...</option>
+      <option value="Option A">Option A</option>
+      <option value="Option B">Option B</option>
+      <option value="Option C">Option C</option>
+    </select>
+  </div>
+
+  <button id="bouton-enregistrer" onclick="enregistrerToutesLesReponses()">Enregistrer mes réponses</button>
+  <p id="message-global"></p>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://fsrjhdxbdpdrdlcovdxg.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_7pg8_ejZTCj1D6dcnuLsSw_Kq4dpuxX';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // On récupère le code et le surnom stockés par connexion.html
     const code = sessionStorage.getItem('code');
-    const surnom = sessionStorage.getItem('surnom');
+    const prenom = sessionStorage.getItem('prenom');
 
-    if (surnom) {
-      document.getElementById('salutation').textContent = 'Bonjour ' + surnom + ' !';
-    } else {
-      document.getElementById('salutation').textContent = 'Bonjour ! (connecte-toi via connexion.html)';
-    }
+    document.getElementById('salutation').textContent = prenom
+      ? `Welcome, ${prenom} 👋`
+      : 'Welcome ! (connecte-toi via connexion.html)';
 
-    // Au chargement de la page, on va chercher si l'invité a déjà répondu,
-    // pour pré-cocher son choix et lui permettre de le corriger.
-    async function chargerReponseExistante() {
-      if (!code) return; // pas de code = pas connecté, on ne fait rien
+    // Affiche/masque le champ "précise ton moyen de transport" selon le choix fait
+    document.getElementById('moyen_arrivee').addEventListener('change', function () {
+      document.getElementById('bloc-autre-arrivee').style.display = (this.value === 'Autre') ? 'block' : 'none';
+    });
+    document.getElementById('moyen_depart').addEventListener('change', function () {
+      document.getElementById('bloc-autre-depart').style.display = (this.value === 'Autre') ? 'block' : 'none';
+    });
+    document.getElementById('case-autre-allergie').addEventListener('change', function () {
+      document.getElementById('bloc-autre-allergie').style.display = this.checked ? 'block' : 'none';
+    });
 
-      const { data, error } = await supabaseClient.rpc('lire_reponse_sondage', { code_saisi: code });
+    // ---- Chargement des réponses déjà enregistrées (pour permettre la correction) ----
+    async function chargerReponsesExistantes() {
+      if (!code) return;
+
+      const { data, error } = await supabaseClient.rpc('lire_mes_reponses', { code_saisi: code });
 
       if (error) {
         console.error(error);
         return;
       }
 
-      if (data.length > 0) {
-        const reponseActuelle = data[0].reponse;
-        // On pré-coche le bon bouton radio
-        const input = document.querySelector(`input[name="reponse"][value="${reponseActuelle}"]`);
-        if (input) input.checked = true;
+      if (data.length === 0) return; // pas encore de réponse enregistrée
 
-        document.getElementById('message-sondage').textContent =
-          'Ta réponse actuelle : ' + reponseActuelle + ' (tu peux la corriger ci-dessus)';
+      const r = data[0];
+
+      document.getElementById('date_arrivee').value = r.date_arrivee ?? '';
+      document.getElementById('heure_arrivee').value = r.heure_arrivee ?? '';
+      document.getElementById('moyen_arrivee').value = r.moyen_arrivee ?? '';
+      document.getElementById('autre_moyen_arrivee').value = r.autre_moyen_arrivee ?? '';
+      document.getElementById('date_depart').value = r.date_depart ?? '';
+      document.getElementById('heure_depart').value = r.heure_depart ?? '';
+      document.getElementById('moyen_depart').value = r.moyen_depart ?? '';
+      document.getElementById('autre_moyen_depart').value = r.autre_moyen_depart ?? '';
+
+      if (r.moyen_arrivee === 'Autre') document.getElementById('bloc-autre-arrivee').style.display = 'block';
+      if (r.moyen_depart === 'Autre') document.getElementById('bloc-autre-depart').style.display = 'block';
+
+      document.getElementById('regime_alimentaire').value = r.regime_alimentaire ?? '';
+      document.getElementById('autre_allergie').value = r.autre_allergie ?? '';
+      document.getElementById('aliments_detestes').value = r.aliments_detestes ?? '';
+
+      if (r.allergies) {
+        r.allergies.forEach(valeur => {
+          const case_a_cocher = document.querySelector(`input[name="allergies"][value="${valeur}"]`);
+          if (case_a_cocher) case_a_cocher.checked = true;
+        });
+        if (r.allergies.includes('Autre')) document.getElementById('bloc-autre-allergie').style.display = 'block';
       }
+
+      document.getElementById('preference_chambre').value = r.preference_chambre ?? '';
+      document.getElementById('avec_qui').value = r.avec_qui ?? '';
+      document.getElementById('eviter_qui').value = r.eviter_qui ?? '';
+
+      document.getElementById('repas_vendredi_soir').value = r.repas_vendredi_soir ?? '';
+      document.getElementById('repas_samedi_midi').value = r.repas_samedi_midi ?? '';
+      document.getElementById('repas_samedi_soir').value = r.repas_samedi_soir ?? '';
+      document.getElementById('repas_dimanche_matin').value = r.repas_dimanche_matin ?? '';
+
+      if (r.boissons) {
+        r.boissons.forEach(valeur => {
+          const case_a_cocher = document.querySelector(`input[name="boissons"][value="${valeur}"]`);
+          if (case_a_cocher) case_a_cocher.checked = true;
+        });
+      }
+
+      document.getElementById('theme_vendredi').value = r.theme_vendredi ?? '';
+      document.getElementById('theme_samedi').value = r.theme_samedi ?? '';
+
+      document.getElementById('activite_samedi_matin').value = r.activite_samedi_matin ?? '';
+      document.getElementById('activite_samedi_apres_midi').value = r.activite_samedi_apres_midi ?? '';
+      document.getElementById('activite_dimanche_matin').value = r.activite_dimanche_matin ?? '';
+      document.getElementById('activite_dimanche_apres_midi').value = r.activite_dimanche_apres_midi ?? '';
     }
 
-    chargerReponseExistante();
+    chargerReponsesExistantes();
 
-    async function repondreSondage() {
-      const choix = document.querySelector('input[name="reponse"]:checked');
-      const messageEl = document.getElementById('message-sondage');
-
-      if (!choix) {
-        messageEl.textContent = 'Choisis une option avant de valider.';
-        return;
-      }
+    // ---- Enregistrement de toutes les réponses en une fois ----
+    async function enregistrerToutesLesReponses() {
+      const messageEl = document.getElementById('message-global');
 
       if (!code) {
         messageEl.textContent = 'Erreur : reconnecte-toi via connexion.html.';
@@ -81,11 +377,37 @@
 
       messageEl.textContent = 'Enregistrement...';
 
-      // "enregistrer_reponse_sondage" fait un upsert : si une réponse existe déjà
-      // pour ce code, elle est remplacée par la nouvelle (= correction).
-      const { data, error } = await supabaseClient.rpc('enregistrer_reponse_sondage', {
+      const allergiesChoisies = Array.from(document.querySelectorAll('input[name="allergies"]:checked')).map(c => c.value);
+      const boissonsChoisies = Array.from(document.querySelectorAll('input[name="boissons"]:checked')).map(c => c.value);
+
+      const { data, error } = await supabaseClient.rpc('enregistrer_reponses', {
         code_saisi: code,
-        reponse_saisie: choix.value
+        p_date_arrivee: document.getElementById('date_arrivee').value || null,
+        p_heure_arrivee: document.getElementById('heure_arrivee').value || null,
+        p_moyen_arrivee: document.getElementById('moyen_arrivee').value || null,
+        p_autre_moyen_arrivee: document.getElementById('autre_moyen_arrivee').value || null,
+        p_date_depart: document.getElementById('date_depart').value || null,
+        p_heure_depart: document.getElementById('heure_depart').value || null,
+        p_moyen_depart: document.getElementById('moyen_depart').value || null,
+        p_autre_moyen_depart: document.getElementById('autre_moyen_depart').value || null,
+        p_regime_alimentaire: document.getElementById('regime_alimentaire').value || null,
+        p_allergies: allergiesChoisies,
+        p_autre_allergie: document.getElementById('autre_allergie').value || null,
+        p_aliments_detestes: document.getElementById('aliments_detestes').value || null,
+        p_preference_chambre: document.getElementById('preference_chambre').value || null,
+        p_avec_qui: document.getElementById('avec_qui').value || null,
+        p_eviter_qui: document.getElementById('eviter_qui').value || null,
+        p_repas_vendredi_soir: document.getElementById('repas_vendredi_soir').value || null,
+        p_repas_samedi_midi: document.getElementById('repas_samedi_midi').value || null,
+        p_repas_samedi_soir: document.getElementById('repas_samedi_soir').value || null,
+        p_repas_dimanche_matin: document.getElementById('repas_dimanche_matin').value || null,
+        p_boissons: boissonsChoisies,
+        p_theme_vendredi: document.getElementById('theme_vendredi').value || null,
+        p_theme_samedi: document.getElementById('theme_samedi').value || null,
+        p_activite_samedi_matin: document.getElementById('activite_samedi_matin').value || null,
+        p_activite_samedi_apres_midi: document.getElementById('activite_samedi_apres_midi').value || null,
+        p_activite_dimanche_matin: document.getElementById('activite_dimanche_matin').value || null,
+        p_activite_dimanche_apres_midi: document.getElementById('activite_dimanche_apres_midi').value || null
       });
 
       if (error) {
@@ -94,7 +416,7 @@
         return;
       }
 
-      messageEl.textContent = 'Réponse enregistrée : ' + choix.value;
+      messageEl.textContent = 'Tes réponses ont bien été enregistrées, merci !';
     }
   </script>
 

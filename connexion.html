@@ -63,7 +63,9 @@
     }
 
     .carte-connexion input {
+      display: block;
       width: 100%;
+      max-width: 100%;
       font-family: 'Quicksand', sans-serif;
       font-size: 1.1rem;
       font-weight: 600;
@@ -71,9 +73,10 @@
       border: 2px solid var(--marine);
       border-radius: 999px;
       text-align: center;
-      margin-bottom: 0.9rem;
+      margin: 0 0 0.9rem 0;
       color: var(--encre);
       background-color: var(--creme);
+      box-sizing: border-box;
     }
 
     .carte-connexion input::placeholder {
@@ -200,7 +203,7 @@
         // Profil déjà complet : on stocke le code et le surnom pour la page suivante,
         // puis on redirige vers la page personnelle
         sessionStorage.setItem('code', code);
-        sessionStorage.setItem('surnom', invite.surnom);
+        sessionStorage.setItem('prenom', invite.prenom);
         window.location.href = 'dashboard-test.html';
       }
     }
@@ -248,7 +251,7 @@
 
       // On stocke le code et le surnom, puis on redirige vers la page personnelle
       sessionStorage.setItem('code', codeInviteActuel);
-      sessionStorage.setItem('surnom', surnom);
+      sessionStorage.setItem('prenom', prenom);
       setTimeout(() => { window.location.href = 'dashboard-test.html'; }, 800);
     }
   </script>
