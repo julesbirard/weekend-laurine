@@ -24,9 +24,9 @@ body.connexion {
 .sticker-billet {
   position: absolute;
   top: -0.8rem;
-  left: -1rem;
-  width: 50px;
-  transform: rotate(-15deg);
+  left: -0.6rem;
+  font-size: 2.2rem;
+  transform: rotate(-10deg);
   filter: drop-shadow(0 3px 4px rgba(43, 33, 24, 0.15));
   z-index: 2;
 }

@@ -76,6 +76,131 @@ async function chargerDonnees() {
     `;
     corpsReponses.appendChild(ligne);
   });
+
+  afficherStatistiques(resultInvites.data, resultReponses.data);
+  genererGraphiques(resultReponses.data);
+}
+
+// ==================== RÉCAPITULATIF ====================
+
+function afficherStatistiques(invites, reponses) {
+  document.getElementById('stat-total').textContent = invites.length;
+  document.getElementById('stat-profils').textContent =
+    invites.filter(i => i.profil_complete).length;
+  document.getElementById('stat-reponses').textContent = reponses.length;
+}
+
+// ==================== GRAPHIQUES ====================
+
+// Palette réutilisée pour tous les graphiques, cohérente avec le reste du site
+const COULEURS = ['#c9503f', '#2f6f62', '#e3a73c', '#2d3e63', '#8b5e3c', '#a9c4d4', '#8fa888'];
+
+// Compte les occurrences d'une valeur simple (ex: regime_alimentaire) parmi les réponses,
+// en ignorant les réponses vides
+function compterValeurs(reponses, champ) {
+  const compteur = {};
+  reponses.forEach(r => {
+    const valeur = r[champ];
+    if (!valeur) return;
+    compteur[valeur] = (compteur[valeur] || 0) + 1;
+  });
+  return compteur;
+}
+
+// Même principe, mais pour un champ qui contient une LISTE de valeurs
+// (ex: allergies, boissons -> plusieurs choix possibles par invité)
+function compterValeursMultiples(reponses, champ) {
+  const compteur = {};
+  reponses.forEach(r => {
+    const valeurs = r[champ];
+    if (!valeurs || valeurs.length === 0) return;
+    valeurs.forEach(valeur => {
+      compteur[valeur] = (compteur[valeur] || 0) + 1;
+    });
+  });
+  return compteur;
+}
+
+// Dessine un graphique en barres simple à partir d'un objet {valeur: nombre}
+function dessinerGraphiqueBarres(idCanvas, compteur) {
+  const labels = Object.keys(compteur);
+  const valeurs = Object.values(compteur);
+
+  if (labels.length === 0) return; // rien à afficher
+
+  new Chart(document.getElementById(idCanvas), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: valeurs,
+        backgroundColor: COULEURS[0],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+    }
+  });
+}
+
+// Dessine un graphique en barres groupées : plusieurs créneaux (ex: 4 repas),
+// chacun avec ses options (Option A / B / C), pour comparer d'un coup d'œil
+function dessinerGraphiqueGroupe(idCanvas, reponses, champsCreneaux, etiquettesCreneaux, options) {
+  const datasets = options.map((option, index) => ({
+    label: option,
+    data: champsCreneaux.map(champ =>
+      reponses.filter(r => r[champ] === option).length
+    ),
+    backgroundColor: COULEURS[index % COULEURS.length],
+    borderRadius: 6
+  }));
+
+  new Chart(document.getElementById(idCanvas), {
+    type: 'bar',
+    data: { labels: etiquettesCreneaux, datasets: datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom' } },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+    }
+  });
+}
+
+function genererGraphiques(reponses) {
+  dessinerGraphiqueBarres('graphique-regime', compterValeurs(reponses, 'regime_alimentaire'));
+  dessinerGraphiqueBarres('graphique-allergies', compterValeursMultiples(reponses, 'allergies'));
+  dessinerGraphiqueBarres('graphique-chambre', compterValeurs(reponses, 'preference_chambre'));
+  dessinerGraphiqueBarres('graphique-boissons', compterValeursMultiples(reponses, 'boissons'));
+  dessinerGraphiqueBarres('graphique-transport', compterValeurs(reponses, 'moyen_arrivee'));
+
+  const options3 = ['Option A', 'Option B', 'Option C'];
+
+  dessinerGraphiqueGroupe(
+    'graphique-repas',
+    reponses,
+    ['repas_vendredi_soir', 'repas_samedi_midi', 'repas_samedi_soir', 'repas_dimanche_matin'],
+    ['Ven. soir', 'Sam. midi', 'Sam. soir', 'Dim. matin'],
+    options3
+  );
+
+  dessinerGraphiqueGroupe(
+    'graphique-themes',
+    reponses,
+    ['theme_vendredi', 'theme_samedi'],
+    ['Vendredi', 'Samedi'],
+    options3
+  );
+
+  dessinerGraphiqueGroupe(
+    'graphique-activites',
+    reponses,
+    ['activite_samedi_matin', 'activite_samedi_apres_midi', 'activite_dimanche_matin', 'activite_dimanche_apres_midi'],
+    ['Sam. matin', 'Sam. aprem', 'Dim. matin', 'Dim. aprem'],
+    options3
+  );
 }
 
 chargerDonnees();

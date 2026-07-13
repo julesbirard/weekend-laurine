@@ -1,3 +1,57 @@
 .conteneur-scroll { overflow-x: auto; margin-bottom: 2rem; }
 #table-reponses { min-width: 1600px; }
 #table-reponses th, #table-reponses td { white-space: nowrap; }
+
+/* ---- Cartes de statistiques ---- */
+.grille-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.carte-stat {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.stat-valeur {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--couleur-accent);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ---- Cartes de graphiques ---- */
+.grille-graphiques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.carte-graphique {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.2rem;
+}
+
+.titre-graphique {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin: 0 0 0.8rem 0;
+  text-align: center;
+}
+
+.carte-graphique canvas {
+  max-height: 220px;
+}

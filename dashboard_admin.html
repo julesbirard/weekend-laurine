@@ -12,6 +12,58 @@
   <h1>Tableau de bord organisatrice</h1>
   <p id="erreur" class="erreur"></p>
 
+  <h2>Récapitulatif</h2>
+  <div class="grille-stats">
+    <div class="carte-stat">
+      <span class="stat-valeur" id="stat-total">–</span>
+      <span class="stat-label">Invités</span>
+    </div>
+    <div class="carte-stat">
+      <span class="stat-valeur" id="stat-profils">–</span>
+      <span class="stat-label">Profils complets</span>
+    </div>
+    <div class="carte-stat">
+      <span class="stat-valeur" id="stat-reponses">–</span>
+      <span class="stat-label">Ont répondu au questionnaire</span>
+    </div>
+  </div>
+
+  <h2>Graphiques</h2>
+  <div class="grille-graphiques">
+    <div class="carte-graphique">
+      <p class="titre-graphique">Régime alimentaire</p>
+      <canvas id="graphique-regime"></canvas>
+    </div>
+    <div class="carte-graphique">
+      <p class="titre-graphique">Allergies</p>
+      <canvas id="graphique-allergies"></canvas>
+    </div>
+    <div class="carte-graphique">
+      <p class="titre-graphique">Préférence de chambre</p>
+      <canvas id="graphique-chambre"></canvas>
+    </div>
+    <div class="carte-graphique">
+      <p class="titre-graphique">Boissons souhaitées</p>
+      <canvas id="graphique-boissons"></canvas>
+    </div>
+    <div class="carte-graphique">
+      <p class="titre-graphique">Repas (par créneau)</p>
+      <canvas id="graphique-repas"></canvas>
+    </div>
+    <div class="carte-graphique">
+      <p class="titre-graphique">Thèmes des soirées</p>
+      <canvas id="graphique-themes"></canvas>
+    </div>
+    <div class="carte-graphique">
+      <p class="titre-graphique">Activités (par créneau)</p>
+      <canvas id="graphique-activites"></canvas>
+    </div>
+    <div class="carte-graphique">
+      <p class="titre-graphique">Moyen de transport (arrivée)</p>
+      <canvas id="graphique-transport"></canvas>
+    </div>
+  </div>
+
   <h2>Invités</h2>
   <table id="table-invites">
     <thead>
@@ -44,6 +96,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script src="js/supabase-client.js"></script>
   <script src="js/dashboard-admin.js"></script>
 
