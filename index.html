@@ -17,74 +17,69 @@
   <!-- Élément signature : un moulin à eau, clin d'œil au Moulin des Ducs -->
   <svg class="moulin-illustration" viewBox="0 0 400 280" aria-hidden="true">
 
-    <!-- Arbre, à gauche -->
-    <g stroke="var(--bois)" stroke-width="3" fill="none" stroke-linecap="round">
-      <line x1="60" y1="150" x2="64" y2="40" />
-    </g>
-    <g fill="var(--vert-sauge)">
-      <ellipse cx="64" cy="42" rx="9" ry="6" transform="rotate(-20 64 42)" />
-      <ellipse cx="72" cy="58" rx="9" ry="6" transform="rotate(20 72 58)" />
-      <ellipse cx="56" cy="74" rx="9" ry="6" transform="rotate(-20 56 74)" />
-      <ellipse cx="72" cy="90" rx="9" ry="6" transform="rotate(20 72 90)" />
-      <ellipse cx="56" cy="106" rx="9" ry="6" transform="rotate(-20 56 106)" />
-      <ellipse cx="70" cy="122" rx="9" ry="6" transform="rotate(20 70 122)" />
-    </g>
+    <!-- Arbre, à gauche : tronc + houppier arrondi (3 masses rondes superposées) -->
+    <line x1="60" y1="212" x2="60" y2="98" stroke="var(--bois)" stroke-width="4" stroke-linecap="round" />
+    <ellipse cx="60" cy="100" rx="27" ry="24" fill="var(--vert-sauge)" />
+    <ellipse cx="42" cy="118" rx="20" ry="18" fill="var(--vert-sauge)" />
+    <ellipse cx="78" cy="120" rx="20" ry="18" fill="var(--vert-sauge)" />
+
+    <!-- Toit -->
+    <polygon points="280,52 208,92 352,92" fill="var(--toit)" />
 
     <!-- Bâtiment en pierre -->
-    <polygon points="315,28 250,88 380,88" fill="var(--encre)" opacity="0.85" />
-    <rect x="258" y="88" width="114" height="94" fill="var(--pierre)" stroke="var(--encre)" stroke-width="2" />
-    <line x1="258" y1="112" x2="372" y2="112" stroke="#d8c8a4" stroke-width="1.5" />
-    <line x1="258" y1="136" x2="372" y2="136" stroke="#d8c8a4" stroke-width="1.5" />
-    <line x1="258" y1="160" x2="372" y2="160" stroke="#d8c8a4" stroke-width="1.5" />
+    <rect x="220" y="92" width="120" height="118" fill="var(--pierre)" stroke="var(--encre)" stroke-width="2" />
 
-    <!-- Fenêtres avec volets -->
-    <g>
-      <rect x="278" y="104" width="22" height="28" fill="#fdf9f0" stroke="var(--encre)" stroke-width="1.5" />
-      <rect x="266" y="104" width="9" height="28" fill="var(--corail)" stroke="var(--encre)" stroke-width="1" />
-      <rect x="303" y="104" width="9" height="28" fill="var(--corail)" stroke="var(--encre)" stroke-width="1" />
-    </g>
-    <g>
-      <rect x="332" y="104" width="22" height="28" fill="#fdf9f0" stroke="var(--encre)" stroke-width="1.5" />
-      <rect x="320" y="104" width="9" height="28" fill="var(--corail)" stroke="var(--encre)" stroke-width="1" />
-      <rect x="357" y="104" width="9" height="28" fill="var(--corail)" stroke="var(--encre)" stroke-width="1" />
-    </g>
+    <!-- Fenêtres, régulièrement espacées -->
+    <rect x="243" y="128" width="28" height="28" fill="#fdf9f0" stroke="var(--corail)" stroke-width="3" />
+    <rect x="289" y="128" width="28" height="28" fill="#fdf9f0" stroke="var(--corail)" stroke-width="3" />
 
-    <!-- Support en bois reliant le bâtiment à la roue -->
-    <line x1="258" y1="178" x2="222" y2="168" stroke="var(--bois)" stroke-width="4" stroke-linecap="round" />
-    <line x1="258" y1="150" x2="222" y2="150" stroke="var(--bois)" stroke-width="4" stroke-linecap="round" />
+    <!-- Poutre reliant la roue au bâtiment, pour bien les connecter visuellement -->
+    <line x1="170" y1="195" x2="220" y2="195" stroke="var(--bois)" stroke-width="6" stroke-linecap="round" />
 
     <!-- Roue à aubes, tourne en continu -->
     <g class="roue-aubes">
-      <circle cx="215" cy="170" r="42" fill="none" stroke="var(--bois)" stroke-width="3" />
-      <g stroke="var(--bois)" stroke-width="7" stroke-linecap="round">
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(0 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(36 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(72 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(108 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(144 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(180 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(216 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(252 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(288 215 170)" />
-        <line x1="215" y1="170" x2="215" y2="130" transform="rotate(324 215 170)" />
+      <circle cx="170" cy="195" r="40" fill="none" stroke="var(--bois)" stroke-width="4" />
+      <g stroke="var(--bois)" stroke-width="5" stroke-linecap="round">
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(0 170 195)" />
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(45 170 195)" />
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(90 170 195)" />
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(135 170 195)" />
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(180 170 195)" />
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(225 170 195)" />
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(270 170 195)" />
+        <line x1="170" y1="195" x2="170" y2="159" transform="rotate(315 170 195)" />
       </g>
-      <circle cx="215" cy="170" r="9" fill="var(--encre)" />
+      <circle cx="170" cy="195" r="9" fill="var(--encre)" />
     </g>
 
     <!-- Cours d'eau -->
-    <path d="M0,205 Q60,195 120,203 T240,206 T400,198 L400,280 L0,280 Z" fill="var(--bleu-eau)" />
-    <path class="flux-eau" d="M20,215 Q80,208 140,215 T260,216 T380,210" fill="none" stroke="#dcecf2" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="10 10" />
-    <path class="flux-eau" d="M10,235 Q70,228 130,235 T250,236 T390,231" fill="none" stroke="#dcecf2" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 12" />
+    <path d="M0,222 Q60,212 120,220 T240,222 T400,214 L400,280 L0,280 Z" fill="var(--bleu-eau)" />
+    <path class="flux-eau" d="M20,232 Q80,225 140,232 T260,233 T380,227" fill="none" stroke="#dcecf2" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="10 10" />
+    <path class="flux-eau" d="M10,250 Q70,244 130,250 T250,251 T390,246" fill="none" stroke="#dcecf2" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 12" />
 
-    <!-- Rochers et touffes d'herbe -->
-    <ellipse cx="150" cy="222" rx="16" ry="9" fill="#cdbfa0" stroke="var(--encre)" stroke-width="1" />
-    <ellipse cx="330" cy="230" rx="20" ry="10" fill="#cdbfa0" stroke="var(--encre)" stroke-width="1" />
+    <!-- Petits galets, à moitié immergés -->
+    <ellipse cx="215" cy="238" rx="13" ry="6" fill="#cdbfa0" stroke="var(--encre)" stroke-width="1" />
+    <ellipse cx="320" cy="244" rx="15" ry="7" fill="#cdbfa0" stroke="var(--encre)" stroke-width="1" />
+
+    <!-- Touffes d'herbe, réparties le long de la rive -->
     <g stroke="var(--vert-sauge)" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <path d="M90,204 q3,-10 0,-16" />
-      <path d="M98,204 q4,-8 2,-14" />
-      <path d="M106,204 q-2,-9 -1,-15" />
-      <path d="M355,192 q3,-10 0,-16" />
-      <path d="M363,192 q4,-8 2,-14" />
+      <path d="M30,222 q3,-11 0,-18" />
+      <path d="M38,222 q5,-9 2,-16" />
+      <path d="M22,222 q-3,-9 -1,-15" />
+
+      <path d="M100,220 q3,-11 0,-18" />
+      <path d="M108,220 q5,-9 2,-16" />
+
+      <path d="M195,220 q3,-10 0,-17" />
+      <path d="M203,220 q4,-8 2,-15" />
+      <path d="M187,220 q-3,-9 -1,-15" />
+
+      <path d="M355,206 q3,-11 0,-18" />
+      <path d="M363,206 q5,-9 2,-16" />
+      <path d="M347,206 q-3,-9 -1,-15" />
+
+      <path d="M355,224 q3,-9 0,-15" />
+      <path d="M363,224 q4,-7 2,-13" />
     </g>
   </svg>
 
