@@ -9,6 +9,9 @@
   --moutarde: #e3a73c;
   --marine: #2d3e63;
   --bois: #8b5e3c;
+  --vert-sauge: #8fa888;
+  --bleu-eau: #a9c4d4;
+  --pierre: #ece0c8;
 }
 
 body.teaser {
@@ -17,25 +20,39 @@ body.teaser {
   color: var(--encre);
 }
 
-/* ---- Le moulin animé : élément signature de la page ---- */
-.moulin {
-  width: 130px;
+/* ---- Le moulin à eau : élément signature de la page ---- */
+.moulin-illustration {
+  width: 260px;
   height: auto;
   margin-bottom: 0.5rem;
 }
 
-.moulin-ailes {
-  transform-origin: 100px 90px;
-  animation: tourner 6s linear infinite;
+/* La roue à aubes tourne en continu autour de son centre (215, 170) */
+.roue-aubes {
+  transform-origin: 215px 170px;
+  animation: tourner-roue 5s linear infinite;
 }
 
-@keyframes tourner {
+@keyframes tourner-roue {
   to { transform: rotate(360deg); }
+}
+
+/* Les lignes de courant à la surface de l'eau "glissent" pour suggérer
+   le mouvement, grâce à un décalage animé des pointillés */
+.flux-eau {
+  animation: couler 2s linear infinite;
+}
+
+@keyframes couler {
+  to { stroke-dashoffset: -20; }
 }
 
 /* Respecte les préférences d'accessibilité : pas d'animation si demandé */
 @media (prefers-reduced-motion: reduce) {
-  .moulin-ailes { animation: none; }
+  .roue-aubes,
+  .flux-eau {
+    animation: none;
+  }
 }
 
 /* ---- Accroche manuscrite ---- */
