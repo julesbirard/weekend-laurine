@@ -195,6 +195,35 @@ body.accueil {
   line-height: 1.7;
 }
 
+/* ---- Galerie photo du lieu ---- */
+.galerie-lieu {
+  margin-bottom: 2rem;
+}
+
+.galerie-titre {
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+  color: var(--encre);
+}
+
+.galerie-scroll {
+  display: flex;
+  gap: 0.9rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x mandatory;
+}
+
+.galerie-photo {
+  flex: 0 0 220px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(43, 33, 24, 0.15);
+  scroll-snap-align: start;
+}
+
 /* ---- Rangée de danseurs, avant le bouton ---- */
 .rangee-danseurs {
   display: flex;
