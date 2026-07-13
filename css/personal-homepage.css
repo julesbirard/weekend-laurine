@@ -1,18 +1,133 @@
-body { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
-h1 { font-size: 1.8rem; }
-h2 { margin-top: 2.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
-.champ { margin-bottom: 1.2rem; }
-.champ label { display: block; font-weight: bold; margin-bottom: 0.3rem; }
-.champ select, .champ input[type="text"], .champ input[type="date"],
-.champ input[type="time"], .champ textarea {
-  width: 100%; max-width: 400px; padding: 0.5rem; font-size: 1rem;
+/* Palette identique au reste du site */
+:root {
+  --creme: #fbf3e6;
+  --encre: #2b2118;
+  --teal: #2f6f62;
+  --corail: #c9503f;
+  --moutarde: #e3a73c;
+  --marine: #2d3e63;
+  --bois: #8b5e3c;
 }
-.case-a-cocher { display: block; font-weight: normal; margin-bottom: 0.3rem; }
-.description-chambres { background: #f5f0e8; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
-.description-chambres p { margin: 0.4rem 0; }
-#bouton-enregistrer { margin-top: 2rem; font-size: 1.1rem; padding: 0.7rem 1.5rem; }
-#message-global { margin-top: 1rem; font-weight: bold; }
 
+body.perso {
+  background-color: var(--creme);
+  font-family: 'Quicksand', sans-serif;
+  color: var(--encre);
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+}
+
+/* ---- Bloc d'introduction, hors cartes pour rester léger ---- */
+.intro h1 {
+  font-weight: 800;
+  font-size: 1.9rem;
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.intro p {
+  line-height: 1.7;
+  margin: 0 0 0.9rem 0;
+}
+
+.intro .signature {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--corail);
+  text-align: center;
+  margin-top: 1.4rem;
+}
+
+/* ---- Chaque mission dans sa propre carte ---- */
+.carte-mission {
+  background-color: #fffdf8;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(43, 33, 24, 0.08);
+  padding: 1.8rem 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.carte-mission h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--encre);
+  margin: 0 0 0.8rem 0;
+}
+
+.emoji-mission {
+  font-size: 1.5rem;
+}
+
+.texte-intro-mission {
+  white-space: pre-line;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--marine);
+  margin-bottom: 1.3rem;
+}
+
+.sous-titre-mission {
+  font-weight: 700;
+  color: var(--teal);
+  margin: 1.2rem 0 0.6rem 0;
+}
+
+/* ---- Champs de formulaire ---- */
+.champ { margin-bottom: 1.2rem; }
+
+.champ label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+  color: var(--encre);
+}
+
+.champ select,
+.champ input[type="text"],
+.champ input[type="date"],
+.champ input[type="time"],
+.champ textarea {
+  width: 100%;
+  max-width: 100%;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.6rem 0.9rem;
+  border: 2px solid var(--marine);
+  border-radius: 12px;
+  background-color: var(--creme);
+  color: var(--encre);
+  box-sizing: border-box;
+}
+
+.champ textarea { resize: vertical; }
+
+.case-a-cocher {
+  display: block;
+  font-weight: 500;
+  font-size: 0.92rem;
+  margin-bottom: 0.4rem;
+}
+
+.description-chambres {
+  background: var(--creme);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.2rem;
+}
+
+.description-chambres p {
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
+}
+
+/* ---- Champs côte à côte (arrivée / départ) ---- */
 .rangee-champs {
   display: flex;
   flex-wrap: wrap;
@@ -23,11 +138,8 @@ h2 { margin-top: 2.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; 
   flex: 1 1 150px;
   margin-bottom: 0;
 }
-.sous-titre-mission {
-  font-weight: bold;
-  margin: 1rem 0 0.5rem 0;
-}
 
+/* ---- Grille 4 colonnes pour les boissons ---- */
 .grille-cases {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -37,7 +149,31 @@ h2 { margin-top: 2.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; 
   .grille-cases { grid-template-columns: repeat(2, 1fr); }
 }
 
-.texte-intro-mission {
-  white-space: pre-line;
-  margin-bottom: 1.2rem;
+/* ---- Bouton d'enregistrement ---- */
+#bouton-enregistrer {
+  display: block;
+  width: 100%;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--corail);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(201, 80, 63, 0.3);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+#bouton-enregistrer:hover {
+  background-color: #b5432f;
+  transform: translateY(-2px);
+}
+
+#message-global {
+  margin-top: 1rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--teal);
 }

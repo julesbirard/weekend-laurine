@@ -1,18 +1,264 @@
-body { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
-h1 { font-size: 1.8rem; }
-.sous-titre { font-style: italic; margin-top: 0; }
-.infos-rapides { margin-bottom: 1.5rem; }
-.infos-rapides span { display: block; margin-bottom: 0.3rem; }
+/* Palette identique à index.html, pour garder une cohérence entre
+   la page teaser et la page d'accueil. */
+:root {
+  --creme: #fbf3e6;
+  --encre: #2b2118;
+  --teal: #2f6f62;
+  --corail: #c9503f;
+  --moutarde: #e3a73c;
+  --marine: #2d3e63;
+  --bois: #8b5e3c;
+}
+
+body.accueil {
+  background-color: var(--creme);
+  font-family: 'Quicksand', sans-serif;
+  color: var(--encre);
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* ---- Stickers en émoji, réutilisés à plusieurs endroits ---- */
+.emoji-sticker {
+  display: inline-block;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 3px rgba(43, 33, 24, 0.15));
+}
+
+/* ---- Titre + sous-titre ---- */
+.titre-principal {
+  font-weight: 800;
+  font-size: 2.4rem;
+  margin: 0.5rem 0 0.3rem 0;
+  color: var(--encre);
+}
+
+.sous-titre-ligne {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.sous-titre-ligne .emoji-sticker { font-size: 1.4rem; }
+
+.sous-titre {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--corail);
+}
+
+/* ---- Badges d'infos rapides, façon tampons de voyage ---- */
+.infos-rapides {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.badge-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #fffdf8;
+  border: 2px dashed var(--marine);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--marine);
+  box-shadow: 0 3px 8px rgba(43, 33, 24, 0.08);
+}
+
+.badge-info:nth-child(1) { transform: rotate(-2deg); }
+.badge-info:nth-child(2) { transform: rotate(2deg); }
+
+/* ---- Le "billet" du compte à rebours, même style que index.html ---- */
+.zone-billet {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 2.5rem auto;
+  padding-top: 1.2rem;
+}
+
+.carte-billet {
+  position: relative;
+  background-color: #fffdf8;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(43, 33, 24, 0.1);
+  overflow: hidden;
+}
+
+.sticker-calendrier {
+  position: absolute;
+  top: -0.5rem;
+  left: -0.6rem;
+  font-size: 1.8rem;
+  z-index: 2;
+}
+
+.sticker-confetti-billet {
+  position: absolute;
+  top: -0.7rem;
+  right: -0.4rem;
+  font-size: 1.7rem;
+  z-index: 2;
+}
+
+@media (max-width: 420px) {
+  .sticker-calendrier, .sticker-confetti-billet { display: none; }
+}
+
+.billet-entete {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  border-bottom: 2px dashed #e2d8c6;
+}
+
+.perforation {
+  position: absolute;
+  top: 3.15rem;
+  width: 18px;
+  height: 18px;
+  background-color: var(--creme);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.perforation-gauche { left: -9px; }
+.perforation-droite { right: -9px; }
 
 #countdown {
   display: flex;
-  gap: 1.5rem;
-  margin: 1.5rem 0;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 1.5rem 1rem;
+  flex-wrap: wrap;
 }
-.bloc-temps { text-align: center; }
-.bloc-temps .valeur { font-size: 1.8rem; font-weight: bold; display: block; }
-.bloc-temps .label { font-size: 0.8rem; }
 
-.texte-explicatif p { margin-bottom: 1rem; }
+.bloc-temps .valeur {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--corail);
+}
 
-#bouton-entrer { margin-top: 1.5rem; font-size: 1.1rem; padding: 0.7rem 1.5rem; }
+.bloc-temps .label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--marine);
+  opacity: 0.7;
+}
+
+/* ---- Texte explicatif, avec une icône par paragraphe ---- */
+.texte-explicatif {
+  max-width: 560px;
+  margin: 0 auto 2rem auto;
+}
+
+.paragraphe-illustre {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+  text-align: left;
+}
+
+.icone-paragraphe {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fffdf8;
+  box-shadow: 0 3px 8px rgba(43, 33, 24, 0.08);
+}
+
+.icone-paragraphe { font-size: 1.3rem; }
+
+.paragraphe-illustre p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ---- Rangée de danseurs, avant le bouton ---- */
+.rangee-danseurs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.emoji-danseur {
+  font-size: 2.2rem;
+  display: inline-block;
+  animation: rebond 1.6s ease-in-out infinite;
+}
+
+.emoji-danseur:nth-child(1) { animation-delay: 0s; }
+.emoji-danseur:nth-child(2) { animation-delay: 0.2s; }
+.emoji-danseur:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes rebond {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emoji-danseur { animation: none; }
+}
+
+/* ---- Bouton d'appel à l'action, avec ses confettis ---- */
+.zone-cta {
+  position: relative;
+  display: inline-block;
+}
+
+.zone-cta .sticker-confetti-gauche,
+.zone-cta .sticker-confetti-droite {
+  position: absolute;
+  font-size: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.zone-cta .sticker-confetti-gauche { left: -2.4rem; }
+.zone-cta .sticker-confetti-droite { right: -2.4rem; }
+
+@media (max-width: 480px) {
+  .zone-cta .sticker-confetti-gauche,
+  .zone-cta .sticker-confetti-droite { display: none; }
+}
+
+#bouton-entrer {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 0.9rem 2.2rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--corail);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(201, 80, 63, 0.35);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+#bouton-entrer:hover {
+  background-color: #b5432f;
+  transform: translateY(-2px);
+}
