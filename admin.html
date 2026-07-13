@@ -39,6 +39,7 @@
           <th>Boissons</th>
           <th>Thème ven.</th><th>Thème sam.</th>
           <th>Activité sam. matin</th><th>Activité sam. aprem</th><th>Activité dim. matin</th><th>Activité dim. aprem</th>
+          <th>Suggestions</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -130,6 +131,7 @@
           <td>${afficher(r.activite_samedi_apres_midi)}</td>
           <td>${afficher(r.activite_dimanche_matin)}</td>
           <td>${afficher(r.activite_dimanche_apres_midi)}</td>
+          <td>${afficher(r.suggestions_activites)}</td>
         `;
         corpsReponses.appendChild(ligne);
       });

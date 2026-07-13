@@ -5,8 +5,6 @@
   <title>Ton espace personnel</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Style minimal, juste pour que ce soit lisible pendant qu'on travaille
-       le contenu. La vraie mise en forme viendra dans une prochaine étape. */
     body { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
     h1 { font-size: 1.8rem; }
     h2 { margin-top: 2.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
@@ -22,7 +20,6 @@
     #bouton-enregistrer { margin-top: 2rem; font-size: 1.1rem; padding: 0.7rem 1.5rem; }
     #message-global { margin-top: 1rem; font-weight: bold; }
 
-    /* Champs côte à côte (arrivée / départ) */
     .rangee-champs {
       display: flex;
       flex-wrap: wrap;
@@ -38,7 +35,6 @@
       margin: 1rem 0 0.5rem 0;
     }
 
-    /* Grille 4 colonnes pour les cases à cocher du bar */
     .grille-cases {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -46,6 +42,11 @@
     }
     @media (max-width: 500px) {
       .grille-cases { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .texte-intro-mission {
+      white-space: pre-line;
+      margin-bottom: 1.2rem;
     }
   </style>
 </head>
@@ -60,9 +61,10 @@
   <p>Tu peux modifier tes réponses jusqu'au <strong>15 août 2026</strong>.</p>
   <p>Bonne préparation !</p>
 
-  <!-- ============ MISSION 1 : TRANSPORT ============ -->
-  <h2>Mission n°1 : Transport</h2>
-  <p>Planifie ton arrivée et ton départ.</p>
+  <!-- ============ 1. LES TRANSPORTS ============ -->
+  <h2>Les transports</h2>
+  <p class="texte-intro-mission">Pourrais-tu m'indiquer la date et l'heure de ton arrivée et de ton départ, ainsi que le moyen de transport ?
+Je suppose que tu ne sais pas forcément d'avance, mais indique-moi ton intuition : cela va me permettre de vous suggérer des covoiturages et des groupes pour qu'on puisse venir vous récupérer à la gare en arrivant.</p>
 
   <p class="sous-titre-mission">Ton arrivée</p>
   <div class="rangee-champs">
@@ -120,8 +122,10 @@
     <input type="text" id="autre_moyen_depart">
   </div>
 
-  <!-- ============ MISSION 2 : ALIMENTATION ============ -->
-  <h2>Mission n°2 : Alimentation</h2>
+  <!-- ============ 2. ALIMENTATION ============ -->
+  <h2>Ton régime alimentaire et tes allergies</h2>
+  <p class="texte-intro-mission">Pourrais-tu m'indiquer ton régime alimentaire ainsi que tes éventuelles allergies ?
+Vous me connaissez, manger c'est CLÉ ! Il faut absolument que tout le monde s'y retrouve et que personne ne termine tout gonflé à cause d'une malencontreuse cacahuète !</p>
 
   <div class="champ">
     <label for="regime_alimentaire">Ton régime alimentaire ?</label>
@@ -160,39 +164,9 @@
     <textarea id="aliments_detestes" rows="2"></textarea>
   </div>
 
-  <!-- ============ MISSION 3 : LES CHAMBRES ============ -->
-  <h2>Mission n°3 : Les chambres</h2>
-
-  <div class="description-chambres">
-    <p><strong>Lit double</strong> : pour les jeunes couples en quête d'intimité, ou les couples qui ont prévu de naître pendant le séjour</p>
-    <p><strong>Lits simples</strong> : pour les vrais copains qui ont prévu de ronfler ensemble, ou les vieux couples qui s'en fichent de dormir ensemble</p>
-    <p><strong>Double + simple</strong> : pour les parents avec enfants, ou qui ont un pote à gérer comme un enfant</p>
-    <p><strong>Sans prétention</strong> : pour les baroudeurs fêtards : canapé, matelas gonflable, table/chaise ou transat au bord de la piscine</p>
-  </div>
-
-  <div class="champ">
-    <label for="preference_chambre">Une préférence ?</label>
-    <select id="preference_chambre">
-      <option value="">Sélectionner...</option>
-      <option value="Lit double">Lit double</option>
-      <option value="Lits simples">Lits simples</option>
-      <option value="Double + simple">Double + simple</option>
-      <option value="Sans prétention">Sans prétention</option>
-    </select>
-  </div>
-
-  <div class="champ">
-    <label for="avec_qui">Avec qui souhaites-tu être ?</label>
-    <input type="text" id="avec_qui">
-  </div>
-
-  <div class="champ">
-    <label for="eviter_qui">Y a-t-il des personnes avec qui tu préfères ne pas dormir ? (Promis, on ne juge pas 😄)</label>
-    <input type="text" id="eviter_qui">
-  </div>
-
-  <!-- ============ MISSION 4 : LES REPAS ============ -->
-  <h2>Mission n°4 : Les repas</h2>
+  <!-- ============ 3. LES REPAS ============ -->
+  <h2>Les repas</h2>
+  <p class="texte-intro-mission">Voici les premières idées qui me sont passées par la tête. En fonction de vos régimes alimentaires et allergies, on pourra adapter — vous serez informés si je change les différentes options.</p>
 
   <div class="champ">
     <label for="repas_vendredi_soir">Vendredi soir</label>
@@ -231,10 +205,12 @@
     </select>
   </div>
 
-  <!-- ============ MISSION 5 : LE BAR ============ -->
-  <h2>Mission n°5 : Le Bar</h2>
+  <!-- ============ 4. LE BAR ============ -->
+  <h2>Le bar</h2>
+  <p class="texte-intro-mission">Ahhh ! Nous y voilà ! Les repas oui c'est CLÉ, mais on adore picoler !
+Des préférences ?</p>
+
   <div class="champ">
-    <label>Que voudrais-tu retrouver au bar ?</label>
     <div class="grille-cases">
       <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin rouge"> Vin rouge</label>
       <label class="case-a-cocher"><input type="checkbox" name="boissons" value="Vin blanc"> Vin blanc</label>
@@ -247,8 +223,43 @@
     </div>
   </div>
 
-  <!-- ============ MISSION 6 : THEME DES SOIREES ============ -->
-  <h2>Mission n°6 : Thème des soirées</h2>
+  <!-- ============ 5. LES CHAMBRES ============ -->
+  <h2>Les chambres</h2>
+  <p class="texte-intro-mission">Bon, vous vous en doutez, dormir ne va pas être notre principale activité ! Mais indiquez-moi votre préférence de chambre, si vous avez des roommates favoris, et s'il y a des ronfleurs que vous préféreriez éviter.</p>
+
+  <div class="description-chambres">
+    <p><strong>Lit double</strong> : pour les jeunes couples en quête d'intimité, ou les couples qui ont prévu de naître pendant le séjour</p>
+    <p><strong>Lits simples</strong> : pour les vrais copains qui ont prévu de ronfler ensemble, ou les vieux couples qui s'en fichent de dormir ensemble</p>
+    <p><strong>Double + simple</strong> : pour les parents avec enfants, ou qui ont un pote à gérer comme un enfant</p>
+    <p><strong>Sans prétention</strong> : pour les baroudeurs fêtards : canapé, matelas gonflable, table/chaise ou transat au bord de la piscine</p>
+  </div>
+
+  <div class="champ">
+    <label for="preference_chambre">Une préférence ?</label>
+    <select id="preference_chambre">
+      <option value="">Sélectionner...</option>
+      <option value="Lit double">Lit double</option>
+      <option value="Lits simples">Lits simples</option>
+      <option value="Double + simple">Double + simple</option>
+      <option value="Sans prétention">Sans prétention</option>
+    </select>
+  </div>
+
+  <div class="champ">
+    <label for="avec_qui">Avec qui souhaites-tu être ?</label>
+    <input type="text" id="avec_qui">
+  </div>
+
+  <div class="champ">
+    <label for="eviter_qui">Y a-t-il des personnes avec qui tu préfères ne pas dormir ? (Promis, on ne juge pas 😄)</label>
+    <input type="text" id="eviter_qui">
+  </div>
+
+  <!-- ============ 6. LES SOIREES ============ -->
+  <h2>Les soirées</h2>
+  <p class="texte-intro-mission">Voilà, on rentre dans le dur ! C'est peut-être la seule vraie question à laquelle vous ne devez pas oublier de répondre.
+On va partager deux soirées, vous connaissez mon affection pour les soirées à thème, à vous de choisir !</p>
+
   <div class="champ">
     <label for="theme_vendredi">Vendredi soir</label>
     <select id="theme_vendredi">
@@ -268,8 +279,10 @@
     </select>
   </div>
 
-  <!-- ============ MISSION 7 : LES ACTIVITES ============ -->
-  <h2>Mission n°7 : Les activités</h2>
+  <!-- ============ 7. LES ACTIVITES ============ -->
+  <h2>Les activités</h2>
+  <p class="texte-intro-mission">Qui dit grande maison, grand jardin, dit forcément activités et bêtises entre copains ! Une préférence ? N'hésitez pas à me faire des suggestions !</p>
+
   <div class="champ">
     <label for="activite_samedi_matin">Samedi matin</label>
     <select id="activite_samedi_matin">
@@ -306,6 +319,10 @@
       <option value="Option C">Option C</option>
     </select>
   </div>
+  <div class="champ">
+    <label for="suggestions_activites">Des suggestions ?</label>
+    <textarea id="suggestions_activites" rows="2"></textarea>
+  </div>
 
   <button id="bouton-enregistrer" onclick="enregistrerToutesLesReponses()">Enregistrer mes réponses</button>
   <p id="message-global"></p>
@@ -323,7 +340,6 @@
       ? `Welcome, ${surnom} 👋`
       : 'Welcome ! (connecte-toi via connexion.html)';
 
-    // Affiche/masque le champ "précise ton moyen de transport" selon le choix fait
     document.getElementById('moyen_arrivee').addEventListener('change', function () {
       document.getElementById('bloc-autre-arrivee').style.display = (this.value === 'Autre') ? 'block' : 'none';
     });
@@ -334,7 +350,6 @@
       document.getElementById('bloc-autre-allergie').style.display = this.checked ? 'block' : 'none';
     });
 
-    // ---- Chargement des réponses déjà enregistrées (pour permettre la correction) ----
     async function chargerReponsesExistantes() {
       if (!code) return;
 
@@ -345,7 +360,7 @@
         return;
       }
 
-      if (data.length === 0) return; // pas encore de réponse enregistrée
+      if (data.length === 0) return;
 
       const r = data[0];
 
@@ -396,11 +411,11 @@
       document.getElementById('activite_samedi_apres_midi').value = r.activite_samedi_apres_midi ?? '';
       document.getElementById('activite_dimanche_matin').value = r.activite_dimanche_matin ?? '';
       document.getElementById('activite_dimanche_apres_midi').value = r.activite_dimanche_apres_midi ?? '';
+      document.getElementById('suggestions_activites').value = r.suggestions_activites ?? '';
     }
 
     chargerReponsesExistantes();
 
-    // ---- Enregistrement de toutes les réponses en une fois ----
     async function enregistrerToutesLesReponses() {
       const messageEl = document.getElementById('message-global');
 
@@ -441,7 +456,8 @@
         p_activite_samedi_matin: document.getElementById('activite_samedi_matin').value || null,
         p_activite_samedi_apres_midi: document.getElementById('activite_samedi_apres_midi').value || null,
         p_activite_dimanche_matin: document.getElementById('activite_dimanche_matin').value || null,
-        p_activite_dimanche_apres_midi: document.getElementById('activite_dimanche_apres_midi').value || null
+        p_activite_dimanche_apres_midi: document.getElementById('activite_dimanche_apres_midi').value || null,
+        p_suggestions_activites: document.getElementById('suggestions_activites').value || null
       });
 
       if (error) {
