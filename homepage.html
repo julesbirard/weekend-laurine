@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Lau's Goodbye Weekend</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
   <style>
     body { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
     h1 { font-size: 1.8rem; }
@@ -77,32 +77,7 @@
 
   <button id="bouton-entrer" onclick="window.location.href='connexion.html'">Enter the adventure</button>
 
-  <script>
-    const jourJ = new Date('2026-09-04T17:00:00');
-
-    function mettreAJourCompteARebours() {
-      const maintenant = new Date();
-      const difference = jourJ - maintenant;
-
-      if (difference <= 0) {
-        document.getElementById('countdown').textContent = "C'est parti !";
-        return;
-      }
-
-      const jours = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const heures = Math.floor((difference / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((difference / (1000 * 60)) % 60);
-      const secondes = Math.floor((difference / 1000) % 60);
-
-      document.getElementById('jours').textContent = jours;
-      document.getElementById('heures').textContent = heures;
-      document.getElementById('minutes').textContent = minutes;
-      document.getElementById('secondes').textContent = secondes;
-    }
-
-    mettreAJourCompteARebours();
-    setInterval(mettreAJourCompteARebours, 1000);
-  </script>
+  <script src="js/homepage.js"></script>
 
 </body>
 </html>

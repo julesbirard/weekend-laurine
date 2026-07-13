@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Connexion</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -144,119 +144,8 @@
   <!-- On importe la bibliothèque Supabase, qui fournit les outils prêts à l'emploi
        pour dialoguer avec notre base de données depuis le navigateur -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // ⚠️ Remplace ces deux valeurs par celles récupérées à l'étape 2
-    // (Settings > Data API dans Supabase)
-    const SUPABASE_URL = 'https://fsrjhdxbdpdrdlcovdxg.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_7pg8_ejZTCj1D6dcnuLsSw_Kq4dpuxX';
-
-    // On crée un "client" Supabase : l'objet qui va nous permettre de
-    // communiquer avec notre base de données.
-    // Note : on l'appelle "supabaseClient" et non "supabase", car la bibliothèque
-    // importée juste au-dessus utilise déjà ce nom pour elle-même.
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function seConnecter() {
-      const messageEl = document.getElementById('message');
-      const code = document.getElementById('code').value.trim();
-
-      if (code === '') {
-        messageEl.textContent = 'Merci de saisir un code.';
-        messageEl.className = 'erreur';
-        return;
-      }
-
-      messageEl.textContent = 'Vérification...';
-      messageEl.className = '';
-
-      // On appelle notre fonction "verifier_code" créée dans Supabase,
-      // en lui passant le code saisi par l'invité
-      const { data, error } = await supabaseClient.rpc('verifier_code', { code_saisi: code });
-
-      if (error) {
-        // Une erreur technique (connexion, faute dans le nom de la fonction, etc.)
-        console.error(error);
-        messageEl.textContent = "Une erreur est survenue, réessaie.";
-        messageEl.className = 'erreur';
-        return;
-      }
-
-      if (data.length === 0) {
-        // La fonction n'a renvoyé aucune ligne : le code n'existe pas
-        messageEl.textContent = 'Code invalide.';
-        messageEl.className = 'erreur';
-        return;
-      }
-
-      // Le code est valide : on récupère les infos de l'invité (une seule ligne)
-      const invite = data[0];
-      console.log('Invité trouvé :', invite);
-
-      if (invite.profil_complete === false) {
-        // Premier login : on cache l'étape "code" et on affiche le formulaire de profil.
-        // On garde le code en mémoire (dans une variable globale) pour pouvoir
-        // l'envoyer à nouveau quand l'invité validera son profil.
-        codeInviteActuel = code;
-        document.getElementById('etape-code').style.display = 'none';
-        document.getElementById('etape-profil').style.display = 'block';
-      } else {
-        // Profil déjà complet : on stocke le code et le surnom pour la page suivante,
-        // puis on redirige vers la page personnelle
-        sessionStorage.setItem('code', code);
-        sessionStorage.setItem('prenom', invite.prenom);
-        sessionStorage.setItem('surnom', invite.surnom);
-        window.location.href = 'dashboard-test.html';
-      }
-    }
-
-    // Variable qui garde en mémoire le code de l'invité entre l'étape 1 (connexion)
-    // et l'étape 2 (complétion du profil)
-    let codeInviteActuel = null;
-
-    async function validerProfil() {
-      const messageEl = document.getElementById('message-profil');
-
-      const nom = document.getElementById('nom').value.trim();
-      const prenom = document.getElementById('prenom').value.trim();
-      const surnom = document.getElementById('surnom').value.trim();
-      const email = document.getElementById('email').value.trim();
-
-      if (nom === '' || prenom === '' || email === '') {
-        messageEl.textContent = 'Merci de remplir au moins Nom, Prénom et Email.';
-        messageEl.className = 'erreur';
-        return;
-      }
-
-      messageEl.textContent = 'Enregistrement...';
-      messageEl.className = '';
-
-      // On appelle notre fonction "completer_profil", qui met à jour la ligne
-      // correspondant à codeInviteActuel, et marque le profil comme complet
-      const { data, error } = await supabaseClient.rpc('completer_profil', {
-        code_saisi: codeInviteActuel,
-        nom_saisi: nom,
-        prenom_saisi: prenom,
-        surnom_saisi: surnom,
-        email_saisi: email
-      });
-
-      if (error) {
-        console.error(error);
-        messageEl.textContent = "Une erreur est survenue, réessaie.";
-        messageEl.className = 'erreur';
-        return;
-      }
-
-      messageEl.textContent = 'Profil enregistré, merci !';
-      messageEl.className = 'succes';
-
-      // On stocke le code et le surnom, puis on redirige vers la page personnelle
-      sessionStorage.setItem('code', codeInviteActuel);
-      sessionStorage.setItem('prenom', prenom);
-      sessionStorage.setItem('surnom', surnom);
-      setTimeout(() => { window.location.href = 'dashboard-test.html'; }, 800);
-    }
-  </script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/connexion.js"></script>
 
 </body>
 </html>

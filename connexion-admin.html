@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Espace organisatrice</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="page-centree">
 
@@ -13,44 +13,8 @@
   <p id="message" class="message"></p>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = 'https://fsrjhdxbdpdrdlcovdxg.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_7pg8_ejZTCj1D6dcnuLsSw_Kq4dpuxX';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function seConnecterAdmin() {
-      const messageEl = document.getElementById('message');
-      const code = document.getElementById('codeAdmin').value.trim();
-
-      if (code === '') {
-        messageEl.textContent = 'Merci de saisir un code.';
-        messageEl.className = 'erreur';
-        return;
-      }
-
-      messageEl.textContent = 'Vérification...';
-      messageEl.className = '';
-
-      const { data, error } = await supabaseClient.rpc('verifier_code_admin', { code_saisi: code });
-
-      if (error) {
-        console.error(error);
-        messageEl.textContent = "Une erreur est survenue, réessaie.";
-        messageEl.className = 'erreur';
-        return;
-      }
-
-      if (data === true) {
-        // On stocke le code admin pour que la page suivante puisse l'utiliser
-        // à chaque fois qu'elle a besoin de lire des données
-        sessionStorage.setItem('codeAdmin', code);
-        window.location.href = 'admin.html';
-      } else {
-        messageEl.textContent = 'Code invalide.';
-        messageEl.className = 'erreur';
-      }
-    }
-  </script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/connexion-admin.js"></script>
 
 </body>
 </html>
