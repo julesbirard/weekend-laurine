@@ -1,0 +1,3 @@
+.conteneur-scroll { overflow-x: auto; margin-bottom: 2rem; }
+#table-reponses { min-width: 1600px; }
+#table-reponses th, #table-reponses td { white-space: nowrap; }

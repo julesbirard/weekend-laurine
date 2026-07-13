@@ -1,0 +1,106 @@
+/* Palette et typographie propres à cette page, inspirées du mood board.
+   Ces variables ne concernent que cette page : elles n'affectent pas
+   les autres fichiers du site. */
+:root {
+  --creme: #fbf3e6;
+  --encre: #2b2118;
+  --teal: #2f6f62;
+  --corail: #c9503f;
+  --moutarde: #e3a73c;
+  --marine: #2d3e63;
+  --bois: #8b5e3c;
+}
+
+body.teaser {
+  background-color: var(--creme);
+  font-family: 'Quicksand', sans-serif;
+  color: var(--encre);
+}
+
+/* ---- Le moulin animé : élément signature de la page ---- */
+.moulin {
+  width: 130px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.moulin-ailes {
+  transform-origin: 100px 90px;
+  animation: tourner 6s linear infinite;
+}
+
+@keyframes tourner {
+  to { transform: rotate(360deg); }
+}
+
+/* Respecte les préférences d'accessibilité : pas d'animation si demandé */
+@media (prefers-reduced-motion: reduce) {
+  .moulin-ailes { animation: none; }
+}
+
+/* ---- Accroche manuscrite ---- */
+.accroche {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--marine);
+  margin: 0 0 2rem 0;
+}
+
+/* ---- Le "billet" contenant le compte à rebours ---- */
+.carte-billet {
+  position: relative;
+  background-color: #fffdf8;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(43, 33, 24, 0.1);
+  width: 100%;
+  max-width: 380px;
+  overflow: hidden;
+}
+
+.billet-entete {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  border-bottom: 2px dashed #e2d8c6;
+}
+
+/* Petites perforations façon billet, de part et d'autre du pointillé */
+.perforation {
+  position: absolute;
+  top: 3.15rem;
+  width: 18px;
+  height: 18px;
+  background-color: var(--creme);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.perforation-gauche { left: -9px; }
+.perforation-droite { right: -9px; }
+
+#countdown {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 1.5rem 1rem;
+  flex-wrap: wrap;
+}
+
+.bloc-temps .valeur {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--corail);
+}
+
+.bloc-temps .label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--marine);
+  opacity: 0.7;
+}

@@ -1,0 +1,43 @@
+body { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
+h1 { font-size: 1.8rem; }
+h2 { margin-top: 2.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
+.champ { margin-bottom: 1.2rem; }
+.champ label { display: block; font-weight: bold; margin-bottom: 0.3rem; }
+.champ select, .champ input[type="text"], .champ input[type="date"],
+.champ input[type="time"], .champ textarea {
+  width: 100%; max-width: 400px; padding: 0.5rem; font-size: 1rem;
+}
+.case-a-cocher { display: block; font-weight: normal; margin-bottom: 0.3rem; }
+.description-chambres { background: #f5f0e8; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+.description-chambres p { margin: 0.4rem 0; }
+#bouton-enregistrer { margin-top: 2rem; font-size: 1.1rem; padding: 0.7rem 1.5rem; }
+#message-global { margin-top: 1rem; font-weight: bold; }
+
+.rangee-champs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.rangee-champs .champ {
+  flex: 1 1 150px;
+  margin-bottom: 0;
+}
+.sous-titre-mission {
+  font-weight: bold;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.grille-cases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem 1rem;
+}
+@media (max-width: 500px) {
+  .grille-cases { grid-template-columns: repeat(2, 1fr); }
+}
+
+.texte-intro-mission {
+  white-space: pre-line;
+  margin-bottom: 1.2rem;
+}
