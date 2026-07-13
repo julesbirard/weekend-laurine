@@ -92,8 +92,3 @@ body.connexion {
   background-color: #b5432f;
   transform: translateY(-2px);
 }
-
-.message {
-  margin-top: 1rem;
-  font-weight: 600;
-}
