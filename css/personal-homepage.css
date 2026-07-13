@@ -18,26 +18,58 @@ body.perso {
   padding: 2.5rem 1.5rem 3rem;
 }
 
-/* ---- Bloc d'introduction, hors cartes pour rester léger ---- */
+/* ---- Bloc d'introduction ---- */
 .intro h1 {
   font-weight: 800;
-  font-size: 1.9rem;
-  margin: 0 0 1rem 0;
+  font-size: 2.1rem;
+  color: var(--teal);
+  margin: 0 0 0.3rem 0;
   text-align: center;
 }
 
-.intro p {
+.trait-decoratif {
+  width: 70px;
+  height: 4px;
+  background: var(--teal);
+  border-radius: 4px;
+  margin: 0 auto 1.4rem auto;
+  opacity: 0.5;
+}
+
+.carte-intro {
+  background-color: #fffdf8;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(43, 33, 24, 0.08);
+  padding: 1.6rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.carte-intro p {
   line-height: 1.7;
   margin: 0 0 0.9rem 0;
 }
 
-.intro .signature {
+.badge-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--creme);
+  border: 2px dashed var(--marine);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--marine);
+  margin: 0.2rem 0 1rem 0;
+}
+
+.carte-intro .signature {
   font-family: 'Caveat', cursive;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: 700;
   color: var(--corail);
   text-align: center;
-  margin-top: 1.4rem;
+  margin: 0.6rem 0 0 0;
 }
 
 /* ---- Chaque mission dans sa propre carte ---- */
