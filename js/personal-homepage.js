@@ -77,9 +77,68 @@ async function chargerReponsesExistantes() {
   document.getElementById('activite_dimanche_matin').value = r.activite_dimanche_matin ?? '';
   document.getElementById('activite_dimanche_apres_midi').value = r.activite_dimanche_apres_midi ?? '';
   document.getElementById('suggestions_activites').value = r.suggestions_activites ?? '';
+  document.getElementById('playlist').value = r.playlist ?? '';
 }
 
-chargerReponsesExistantes();
+chargerReponsesExistantes().then(() => calculerProgression());
+
+// ==================== BARRE DE PROGRESSION ====================
+
+// Liste de toutes les "questions" prises en compte pour la progression.
+// type "champ" = un champ simple (input/select/textarea)
+// type "cases" = un groupe de cases à cocher (compté comme répondu dès
+// qu'au moins une case est cochée)
+const QUESTIONS_SUIVIES = [
+  { id: 'date_arrivee', type: 'champ' },
+  { id: 'heure_arrivee', type: 'champ' },
+  { id: 'moyen_arrivee', type: 'champ' },
+  { id: 'date_depart', type: 'champ' },
+  { id: 'heure_depart', type: 'champ' },
+  { id: 'moyen_depart', type: 'champ' },
+  { id: 'regime_alimentaire', type: 'champ' },
+  { nom: 'allergies', type: 'cases' },
+  { id: 'aliments_detestes', type: 'champ' },
+  { id: 'preference_chambre', type: 'champ' },
+  { id: 'avec_qui', type: 'champ' },
+  { id: 'eviter_qui', type: 'champ' },
+  { id: 'repas_vendredi_soir', type: 'champ' },
+  { id: 'repas_samedi_midi', type: 'champ' },
+  { id: 'repas_samedi_soir', type: 'champ' },
+  { id: 'repas_dimanche_matin', type: 'champ' },
+  { nom: 'boissons', type: 'cases' },
+  { id: 'theme_vendredi', type: 'champ' },
+  { id: 'theme_samedi', type: 'champ' },
+  { id: 'playlist', type: 'champ' },
+  { id: 'activite_samedi_matin', type: 'champ' },
+  { id: 'activite_samedi_apres_midi', type: 'champ' },
+  { id: 'activite_dimanche_matin', type: 'champ' },
+  { id: 'activite_dimanche_apres_midi', type: 'champ' },
+  { id: 'suggestions_activites', type: 'champ' }
+];
+
+function calculerProgression() {
+  let repondues = 0;
+
+  QUESTIONS_SUIVIES.forEach(question => {
+    if (question.type === 'champ') {
+      const element = document.getElementById(question.id);
+      if (element && element.value.trim() !== '') repondues++;
+    } else if (question.type === 'cases') {
+      const auMoinsUneCochee = document.querySelector(`input[name="${question.nom}"]:checked`);
+      if (auMoinsUneCochee) repondues++;
+    }
+  });
+
+  const pourcentage = Math.round((repondues / QUESTIONS_SUIVIES.length) * 100);
+
+  document.getElementById('barre-remplissage').style.width = pourcentage + '%';
+  document.getElementById('pourcentage-progression').textContent = pourcentage + '%';
+}
+
+// On recalcule la progression à chaque fois que la personne modifie un champ,
+// n'importe où sur la page (délégation d'événement sur tout le document)
+document.addEventListener('input', calculerProgression);
+document.addEventListener('change', calculerProgression);
 
 async function enregistrerToutesLesReponses() {
   const messageEl = document.getElementById('message-global');
@@ -122,7 +181,8 @@ async function enregistrerToutesLesReponses() {
     p_activite_samedi_apres_midi: document.getElementById('activite_samedi_apres_midi').value || null,
     p_activite_dimanche_matin: document.getElementById('activite_dimanche_matin').value || null,
     p_activite_dimanche_apres_midi: document.getElementById('activite_dimanche_apres_midi').value || null,
-    p_suggestions_activites: document.getElementById('suggestions_activites').value || null
+    p_suggestions_activites: document.getElementById('suggestions_activites').value || null,
+    p_playlist: document.getElementById('playlist').value || null
   });
 
   if (error) {

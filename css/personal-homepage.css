@@ -18,6 +18,41 @@ body.perso {
   padding: 2.5rem 1.5rem 3rem;
 }
 
+/* ---- Barre de progression, collante en haut de la page ---- */
+.barre-progression-conteneur {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--creme);
+  padding: 0.8rem 0;
+  margin-bottom: 1rem;
+}
+
+.barre-progression-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--marine);
+  margin-bottom: 0.4rem;
+}
+
+.barre-progression-fond {
+  width: 100%;
+  height: 10px;
+  background-color: #e6dbc4;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barre-progression-remplissage {
+  height: 100%;
+  width: 0%;
+  background-color: var(--teal);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
 /* ---- Bloc d'introduction ---- */
 .intro h1 {
   font-weight: 800;

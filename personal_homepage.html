@@ -14,6 +14,16 @@
 </head>
 <body class="perso">
 
+  <div class="barre-progression-conteneur">
+    <div class="barre-progression-info">
+      <span>Ta progression</span>
+      <span id="pourcentage-progression">0%</span>
+    </div>
+    <div class="barre-progression-fond">
+      <div class="barre-progression-remplissage" id="barre-remplissage"></div>
+    </div>
+  </div>
+
   <div class="intro">
     <h1 id="salutation">Welcome, 👋</h1>
     <div class="trait-decoratif"></div>
@@ -279,6 +289,18 @@ On va partager deux soirées, vous connaissez mon affection pour les soirées à
         <option value="Option B">Option B</option>
         <option value="Option C">Option C</option>
       </select>
+    </div>
+  </div>
+
+  <!-- ============ PLAYLIST ============ -->
+  <div class="carte-mission">
+    <h2><span class="emoji-mission">🎵</span> La playlist</h2>
+    <p class="texte-intro-mission">Pour faire la fête correctement une playlist de compétition s'impose, et pour ça j'ai besoin de vos derniers hits qui vous font chanter et bouger vos fesses !
+En plus on aura une DJ, alors il faut qu'on lui fasse des suggestions !</p>
+
+    <div class="champ">
+      <label for="playlist">Tes suggestions de musiques</label>
+      <textarea id="playlist" rows="3"></textarea>
     </div>
   </div>
 
