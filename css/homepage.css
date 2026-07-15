@@ -195,6 +195,59 @@ body.accueil {
   line-height: 1.7;
 }
 
+/* ---- Cartes "à venir" (liste des invités, programme) ---- */
+.carte-a-venir {
+  background-color: #fffdf8;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(43, 33, 24, 0.08);
+  padding: 1.5rem 1.4rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.titre-carte-a-venir {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  color: var(--encre);
+}
+
+.texte-a-venir {
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--corail);
+  margin: 0;
+}
+
+.grille-programme {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.jour-programme {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--creme);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+}
+
+.jour-nom {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--marine);
+}
+
+.jour-statut {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--corail);
+}
+
 /* ---- Galerie photo du lieu ---- */
 .galerie-lieu {
   margin-bottom: 2rem;
