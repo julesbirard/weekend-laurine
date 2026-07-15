@@ -33,7 +33,7 @@ body.accueil {
   font-weight: 800;
   font-size: 2.4rem;
   margin: 0.5rem 0 0.3rem 0;
-  color: var(--encre);
+  color: var(--teal);
 }
 
 .sous-titre-ligne {
