@@ -249,17 +249,49 @@ body.accueil {
 }
 
 /* ---- Galerie photo du lieu ---- */
-.galerie-lieu {
-  margin-bottom: 2rem;
+.texte-lieu {
+  text-align: left;
+  margin-bottom: 1.4rem;
 }
 
-.galerie-titre {
-  font-weight: 700;
-  font-size: 1rem;
-  margin: 0 0 1rem 0;
-  color: var(--encre);
+.texte-lieu p {
+  line-height: 1.7;
+  font-size: 0.92rem;
+  margin: 0 0 0.9rem 0;
 }
 
+.liste-equipements {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+}
+
+@media (max-width: 480px) {
+  .liste-equipements { grid-template-columns: 1fr; }
+}
+
+.liste-equipements li {
+  font-size: 0.87rem;
+  line-height: 1.4;
+}
+
+.photos-empilees {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 1.2rem;
+}
+
+.photo-empilee {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(43, 33, 24, 0.15);
+}
 .galerie-scroll {
   display: flex;
   gap: 0.9rem;
