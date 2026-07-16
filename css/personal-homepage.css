@@ -114,6 +114,38 @@ body.perso {
   margin: 0.6rem 0 0 0;
 }
 
+.carte-cta-scroll {
+  border: 2px dashed var(--corail);
+  text-align: center;
+}
+
+.carte-cta-scroll .titre-carte-a-venir {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin: 0 0 0.8rem 0;
+}
+
+.texte-cta-scroll {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0 0 1rem 0;
+}
+
+.fleche-scroll {
+  display: inline-block;
+  font-size: 1.6rem;
+  animation: rebond-fleche 1.6s ease-in-out infinite;
+}
+
+@keyframes rebond-fleche {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fleche-scroll { animation: none; }
+}
+
 /* ---- Chaque mission dans sa propre carte ---- */
 .carte-mission {
   background-color: #fffdf8;
